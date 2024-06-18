@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import { BottomToolbar } from './components/BottomToolbar'
+import { TetrisBoard } from './TetrisBoard'
 
 export const App = () => {
   return (
@@ -15,6 +16,7 @@ export const App = () => {
       }}
     >
       <Typography variant="h6">Blocktopia: The Misaligned Chronicles</Typography>
+      <TetrisBoard />
       <BottomToolbar />
     </Box>
   )
