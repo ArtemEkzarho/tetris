@@ -8,7 +8,17 @@ export const createEmptyBoard = (): Board =>
   Array.from({ length: BOARD_HEIGHT }, () => Array(BOARD_WIDTH).fill(0))
 
 export const getCellColor = (cell: Cell) =>
-  ({ A: 'aqua', B: 'blue', P: 'purple', Y: 'yellow', T: 'darkblue', '0': 'white' }[cell])
+  ({
+    A: 'aqua',
+    B: 'blue',
+    P: 'purple',
+    O: 'orange',
+    T: 'darkblue',
+    H: 'hotpink',
+    G: 'green',
+    R: 'red',
+    '0': 'white',
+  }[cell])
 
 export const checkCollision = (
   player: { tetromino: Tetromino; pos: Position },
