@@ -3,15 +3,12 @@ import { Button, Card, Stack } from '@mui/material'
 import { useTetris } from './useTetris'
 import { useAtomValue } from 'jotai'
 import { prevTetrominoAtom, currentTetrominoAtom } from './atoms'
+import { getCellColor } from './consts'
 
 export const TetrisBoard = () => {
   const { board, resetBoard, moveTo } = useTetris()
   const prevTetromino = useAtomValue(prevTetrominoAtom)
   const currentTetromino = useAtomValue(currentTetrominoAtom)
-
-  const startGame = () => {
-    resetBoard()
-  }
 
   // Effect to handle keyboard input
   useEffect(() => {
@@ -40,9 +37,24 @@ export const TetrisBoard = () => {
 
   return (
     <Stack spacing={1}>
-      <Button size="small" onClick={startGame} variant="outlined">
-        Start Game
-      </Button>
+      <Stack direction="row" spacing={2}>
+        <Button
+          size="small"
+          onClick={() => resetBoard({ startGame: true })}
+          variant="outlined"
+          fullWidth
+        >
+          Start Game
+        </Button>
+        <Button
+          size="small"
+          onClick={() => resetBoard({ endGame: true })}
+          variant="outlined"
+          fullWidth
+        >
+          End Game
+        </Button>
+      </Stack>
 
       <Stack>
         {board.map((row, y) => (
@@ -51,7 +63,7 @@ export const TetrisBoard = () => {
               <Card
                 variant="outlined"
                 key={x}
-                sx={{ width: 30, height: 30, backgroundColor: cell === 0 ? 'white' : 'red' }}
+                sx={{ width: 30, height: 30, backgroundColor: getCellColor(cell) }}
               />
             ))}
           </Stack>
