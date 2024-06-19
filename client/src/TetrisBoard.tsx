@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
-
-import { Button, Paper, Stack } from '@mui/material'
+import { Button, Card, Stack } from '@mui/material'
 import { useTetris } from './useTetris'
-
-export type Cell = string | number
-export type Board = Cell[][]
+import { useAtomValue } from 'jotai'
+import { prevTetrominoAtom, currentTetrominoAtom } from './atoms'
 
 export const TetrisBoard = () => {
-  const { board, resetBoard, drop, moveLeft, moveRight } = useTetris()
+  const { board, resetBoard, moveTo } = useTetris()
+  const prevTetromino = useAtomValue(prevTetrominoAtom)
+  const currentTetromino = useAtomValue(currentTetrominoAtom)
 
   const startGame = () => {
     resetBoard()
@@ -21,13 +21,13 @@ export const TetrisBoard = () => {
           // rotate();
           break
         case 'ArrowDown':
-          drop()
+          // drop()
           break
         case 'ArrowLeft':
-          moveLeft()
+          moveTo({ x: -1 })
           break
         case 'ArrowRight':
-          moveRight()
+          moveTo({ x: 1 })
           break
         default:
           break
@@ -36,35 +36,35 @@ export const TetrisBoard = () => {
 
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [drop, moveLeft, moveRight])
+  }, [moveTo])
 
   return (
     <Stack spacing={1}>
       <Button size="small" onClick={startGame} variant="outlined">
         Start Game
       </Button>
-      <Paper>
-        <Stack>
-          {board.map((row, y) => (
-            <Stack direction="row" key={y} justifyContent="space-between">
-              {row.map((cell, x) => (
-                <Stack
-                  justifyContent="center"
-                  alignItems="center"
-                  key={x}
-                  style={{
-                    height: 30,
-                    width: 30,
-                    backgroundColor: cell === 0 ? 'white' : 'red',
-                  }}
-                >
-                  {cell}
-                </Stack>
-              ))}
-            </Stack>
-          ))}
-        </Stack>
-      </Paper>
+
+      <Stack>
+        {board.map((row, y) => (
+          <Stack direction="row" key={y} justifyContent="space-between">
+            {row.map((cell, x) => (
+              <Card
+                variant="outlined"
+                key={x}
+                sx={{ width: 30, height: 30, backgroundColor: cell === 0 ? 'white' : 'red' }}
+              />
+            ))}
+          </Stack>
+        ))}
+      </Stack>
+      <div>prevTetromino</div>
+      <div>
+        <pre>{JSON.stringify(prevTetromino?.pos, null, 2)}</pre>
+      </div>
+      <div>currentTetromino</div>
+      <div>
+        <pre>{JSON.stringify(currentTetromino?.pos, null, 2)}</pre>
+      </div>
     </Stack>
   )
 }
