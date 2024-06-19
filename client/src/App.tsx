@@ -7,7 +7,7 @@ export const App = () => {
     <Box
       sx={{
         minWidth: 320,
-        maxWidth: 400,
+        maxWidth: 320,
         m: 'auto',
         p: 2,
         pt: 3,
