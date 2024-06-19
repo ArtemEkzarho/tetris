@@ -18,7 +18,7 @@ export const TetrisBoard = () => {
           // rotate();
           break
         case 'ArrowDown':
-          // drop()
+          moveTo({ y: 1 })
           break
         case 'ArrowLeft':
           moveTo({ x: -1 })
@@ -70,13 +70,9 @@ export const TetrisBoard = () => {
         ))}
       </Stack>
       <div>prevTetromino</div>
-      <div>
-        <pre>{JSON.stringify(prevTetromino?.pos, null, 2)}</pre>
-      </div>
+      <div>{JSON.stringify(prevTetromino?.pos)}</div>
       <div>currentTetromino</div>
-      <div>
-        <pre>{JSON.stringify(currentTetromino?.pos, null, 2)}</pre>
-      </div>
+      <div>{JSON.stringify(currentTetromino?.pos)}</div>
     </Stack>
   )
 }

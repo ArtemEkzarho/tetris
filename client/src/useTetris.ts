@@ -45,16 +45,19 @@ export const useTetris = () => {
               prev[y][x] === 'A' ||
               prev[y][x] === 'B' ||
               prev[y][x] === 'P' ||
-              prev[y][x] === 'Y'
+              prev[y][x] === 'O' ||
+              prev[y][x] === 'H' ||
+              prev[y][x] === 'G' ||
+              prev[y][x] === 'R'
             ) {
               newBoard[y][x] = 0
             }
           }
         }
 
-        const { bottom, sides } = checkCollision(currentTetromino, newBoard)
+        const { bottom, sides, otherElements } = checkCollision(currentTetromino, newBoard)
 
-        if (bottom && prevTetromino) {
+        if ((bottom || otherElements) && prevTetromino) {
           prevTetromino.tetromino.forEach((row, y) => {
             row.forEach((value, x) => {
               if (value !== 0) {

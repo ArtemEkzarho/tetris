@@ -27,16 +27,33 @@ export const TETROMINOS: Tetrominos = {
     [0, 0, 0, 0],
   ],
   O: [
-    [0, 'Y', 'Y', 0],
-    [0, 'Y', 'Y', 0],
+    [0, 'O', 'O', 0],
+    [0, 'O', 'O', 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ],
-  // Define other shapes ( T, S, Z, L) similarly
+  T: [
+    ['H', 'H', 'H', 0],
+    [0, 'H', 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+  ],
+  S: [
+    [0, 'G', 'G', 0],
+    ['G', 'G', 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+  ],
+  Z: [
+    ['R', 'R', 0, 0],
+    [0, 'R', 'R', 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+  ],
 }
 
 export const randomTetromino = (): Tetromino => {
-  const tetrominos = 'IJLO'
+  const tetrominos = 'IJLOTSZ'
   const randIndex = Math.floor(Math.random() * tetrominos.length)
   return TETROMINOS[tetrominos[randIndex]]
 }
