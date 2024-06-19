@@ -20,3 +20,4 @@ export const prevTetrominoAtom = atom<
 >(undefined)
 
 export const boardAtom = atom<Board>(createEmptyBoard())
+export const dropTimeAtom = atom<number | undefined>(undefined)

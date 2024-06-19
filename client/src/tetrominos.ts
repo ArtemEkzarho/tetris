@@ -1,4 +1,6 @@
-export type Tetromino = (string | number)[][]
+import { FallingTetrominoCell } from './types'
+
+export type Tetromino = (FallingTetrominoCell | 0)[][]
 
 interface Tetrominos {
   [key: string]: Tetromino
@@ -7,26 +9,26 @@ interface Tetrominos {
 export const TETROMINOS: Tetrominos = {
   0: [[0, 0, 0, 0]],
   I: [
-    ['I', 'I', 'I', 'I'],
+    ['A', 'A', 'A', 'A'],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ],
   J: [
-    ['I', 0, 0, 0],
-    ['I', 'I', 'I', 0],
+    ['B', 0, 0, 0],
+    ['B', 'B', 'B', 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ],
   L: [
-    [0, 0, 'I', 0],
-    ['I', 'I', 'I', 0],
+    [0, 0, 'P', 0],
+    ['P', 'P', 'P', 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ],
   O: [
-    [0, 'I', 'I', 0],
-    [0, 'I', 'I', 0],
+    [0, 'Y', 'Y', 0],
+    [0, 'Y', 'Y', 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ],
