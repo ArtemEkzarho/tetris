@@ -26,7 +26,7 @@ export const useMovements = () => {
         setPrevTetromino(prev)
         return prev
           ? {
-              ...prev!,
+              ...prev,
               pos: { x: prev.pos.x + (x ?? 0), y: prev.pos.y + (y ?? 0) },
               direction: getDirection(x, y),
             }
