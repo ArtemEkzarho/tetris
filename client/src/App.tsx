@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import { BottomToolbar } from './components/BottomToolbar'
-import { TetrisBoard } from './TetrisBoard'
+import { TetrisBoard } from './components/TetrisBoard'
 
 export const App = () => {
   return (
