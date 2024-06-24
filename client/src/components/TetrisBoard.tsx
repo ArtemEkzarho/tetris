@@ -1,10 +1,17 @@
 import { useEffect } from 'react'
-import { Button, Card, Stack } from '@mui/material'
-import { useTetris } from '../hooks/useTetris'
+import { Card, Stack } from '@mui/material'
 import { getCellColor } from '../helpers'
+import useMobileControls from '../hooks/useMobileControls'
+import { Board } from '../helpers/types'
 
-export const TetrisBoard = () => {
-  const { board, resetBoard, moveTo, rotate } = useTetris()
+type Props = {
+  board: Board
+  moveTo: ({ x, y }: { x?: number | undefined; y?: number | undefined }) => void
+  rotate: () => void
+}
+
+export const TetrisBoard = ({ board, moveTo, rotate }: Props) => {
+  useMobileControls(rotate, moveTo)
 
   // Effect to handle keyboard input
   useEffect(() => {
@@ -32,39 +39,18 @@ export const TetrisBoard = () => {
   }, [moveTo, rotate])
 
   return (
-    <Stack spacing={1}>
-      <Stack direction="row" spacing={2}>
-        <Button
-          size="small"
-          onClick={() => resetBoard({ startGame: true })}
-          variant="outlined"
-          fullWidth
-        >
-          Start Game
-        </Button>
-        <Button
-          size="small"
-          onClick={() => resetBoard({ endGame: true })}
-          variant="outlined"
-          fullWidth
-        >
-          End Game
-        </Button>
-      </Stack>
-
-      <Stack>
-        {board.map((row, y) => (
-          <Stack direction="row" key={y} justifyContent="space-between">
-            {row.map((cell, x) => (
-              <Card
-                variant="outlined"
-                key={x}
-                sx={{ width: 30, height: 30, backgroundColor: getCellColor(cell) }}
-              />
-            ))}
-          </Stack>
-        ))}
-      </Stack>
+    <Stack height="100%">
+      {board.map((row, y) => (
+        <Stack flex={1} direction="row" key={y} justifyContent="space-between">
+          {row.map((cell, x) => (
+            <Card
+              variant="outlined"
+              key={x}
+              sx={{ flex: '1', width: '100%', height: '100%', backgroundColor: getCellColor(cell) }}
+            />
+          ))}
+        </Stack>
+      ))}
     </Stack>
   )
 }
