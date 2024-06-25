@@ -1,5 +1,6 @@
 import { BOARD_HEIGHT, BOARD_WIDTH } from './consts'
-import { Board, Cell, Collision, Position, Tetromino } from './types'
+import { randomTetromino } from './tetrominos'
+import { Board, Cell, Collision, Position, Tetromino, TetrominoConfig } from './types'
 
 export const createEmptyBoard = (): Board =>
   Array.from({ length: BOARD_HEIGHT }, () => Array(BOARD_WIDTH).fill(0))
@@ -16,6 +17,15 @@ export const getCellColor = (cell: Cell) =>
     R: 'red',
     '0': 'white',
   }[cell])
+
+export const getNewTetromino = (): TetrominoConfig => {
+  return {
+    tetromino: randomTetromino(),
+    pos: { x: BOARD_WIDTH / 2 - 2, y: -1 },
+    direction: 'down',
+    rotation: 0,
+  }
+}
 
 export const checkCollision = (
   player: { tetromino: Tetromino[]; pos: Position; rotation: number },
@@ -58,6 +68,49 @@ export const checkCollision = (
     }
   }
   return collision
+}
+
+export function canPlaceTetromino(
+  player: { tetromino: Tetromino[]; pos: Position; rotation: number },
+  board: Board
+) {
+  const { tetromino, pos, rotation } = player
+
+  for (let y = 0; y < tetromino[rotation].length; y++) {
+    for (let x = 0; x < tetromino[y].length; x++) {
+      if (tetromino[rotation][y][x] !== 0) {
+        // part of the tetromino
+        const boardX = x + pos.x
+        const boardY = y + pos.y
+
+        // Check if the tetromino is out of the board's bounds
+        if (boardX < 0 || boardX >= board[0].length || boardY >= board.length) {
+          return false
+        }
+
+        // Check if the position is already occupied on the board
+        if (board[boardY][boardX] !== 0) {
+          return false
+        }
+      }
+    }
+  }
+  return true
+}
+
+export const checkForCompleteLines = (board: Board) => {
+  let linesCleared = 0
+  const width = board[0].length
+  const newBoard = board.filter((row) => row.some((cell) => cell === 0)) // Keep only non-full rows
+
+  linesCleared = board.length - newBoard.length // Count how many lines were cleared
+
+  // For each cleared line, add an empty row at the top of the board
+  while (newBoard.length < board.length) {
+    newBoard.unshift(Array(width).fill(0)) // 0 is the value for an empty cell
+  }
+
+  return { clearedBoard: newBoard, linesCleared }
 }
 
 export { BOARD_WIDTH, BOARD_HEIGHT } from './consts'

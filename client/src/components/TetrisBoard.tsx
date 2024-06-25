@@ -3,14 +3,23 @@ import { Card, Stack } from '@mui/material'
 import { getCellColor } from '../helpers'
 import useMobileControls from '../hooks/useMobileControls'
 import { Board } from '../helpers/types'
+import { StartGamePopover } from './StartGamePopover'
+import { EndGamePopover } from './EndGamePopover'
 
 type Props = {
   board: Board
   moveTo: ({ x, y }: { x?: number | undefined; y?: number | undefined }) => void
   rotate: () => void
+  resetBoard: ({
+    startGame,
+    endGame,
+  }: {
+    startGame?: boolean | undefined
+    endGame?: boolean | undefined
+  }) => void
 }
 
-export const TetrisBoard = ({ board, moveTo, rotate }: Props) => {
+export const TetrisBoard = ({ board, moveTo, rotate, resetBoard }: Props) => {
   useMobileControls(rotate, moveTo)
 
   // Effect to handle keyboard input
@@ -39,7 +48,9 @@ export const TetrisBoard = ({ board, moveTo, rotate }: Props) => {
   }, [moveTo, rotate])
 
   return (
-    <Stack height="100%">
+    <Stack height="100%" sx={{ position: 'relative' }}>
+      <StartGamePopover resetBoard={resetBoard} />
+      <EndGamePopover resetBoard={resetBoard} />
       {board.map((row, y) => (
         <Stack flex={1} direction="row" key={y} justifyContent="space-between">
           {row.map((cell, x) => (
