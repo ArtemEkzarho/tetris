@@ -7,6 +7,7 @@ import {
   canPlaceTetromino,
   getNewTetromino,
   checkForCompleteLines,
+  countScore,
 } from '../helpers'
 import { useMovements } from './useMovements'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
@@ -16,6 +17,7 @@ import {
   prevTetrominoAtom,
   dropTimeAtom,
   showEndGamePopoverAtom,
+  scoreAtom,
 } from '../helpers/atoms'
 
 export const useTetris = () => {
@@ -24,6 +26,7 @@ export const useTetris = () => {
   const [dropTime, setDropTime] = useAtom(dropTimeAtom)
   const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
   const prevTetromino = useAtomValue(prevTetrominoAtom)
+  const setScore = useSetAtom(scoreAtom)
   const { moveTo, rotate } = useMovements()
 
   const resetBoard = useCallback(
@@ -42,6 +45,14 @@ export const useTetris = () => {
       }
     },
     [setBoard, setCurrentTetromino, setDropTime]
+  )
+
+  const updateScore = useCallback(
+    (linesCleared: number) => {
+      const newScore = countScore(linesCleared, 1)
+      setScore((prev) => prev + newScore)
+    },
+    [setScore]
   )
 
   useEffect(() => {
@@ -85,7 +96,8 @@ export const useTetris = () => {
             })
           })
 
-          const { clearedBoard } = checkForCompleteLines(newBoard)
+          const { clearedBoard, linesCleared } = checkForCompleteLines(newBoard)
+          updateScore(linesCleared)
 
           const newTetromino = getNewTetromino()
 
@@ -119,6 +131,7 @@ export const useTetris = () => {
     setCurrentTetromino,
     setDropTime,
     setShowEndGamePopover,
+    updateScore,
   ])
 
   useEffect(() => {

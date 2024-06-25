@@ -113,4 +113,37 @@ export const checkForCompleteLines = (board: Board) => {
   return { clearedBoard: newBoard, linesCleared }
 }
 
+export const countScore = (linesCleared: number, level: number) => {
+  //   Level 1:
+  // - Single line clear: 40 * (1 + 1) = 80 points
+  // - Double line clear: 100 * (1 + 1) = 200 points
+  // - Triple line clear: 300 * (1 + 1) = 600 points
+  // - Tetris (four lines): 1200 * (1 + 1) = 2400 points
+
+  // Level 2:
+  // - Single line clear: 40 * (2 + 1) = 120 points
+  // - Double line clear: 100 * (2 + 1) = 300 points
+  // - Triple line clear: 300 * (2 + 1) = 900 points
+  // - Tetris (four lines): 1200 * (2 + 1) = 3600 points
+
+  let score = 0
+  switch (linesCleared) {
+    case 1:
+      score = 40 * (level + 1)
+      break
+    case 2:
+      score = 100 * (level + 1)
+      break
+    case 3:
+      score = 300 * (level + 1)
+      break
+    case 4:
+      score = 1200 * (level + 1)
+      break
+    default:
+      score = 0
+  }
+  return score
+}
+
 export { BOARD_WIDTH, BOARD_HEIGHT } from './consts'

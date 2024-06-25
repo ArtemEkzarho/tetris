@@ -1,6 +1,6 @@
 import { Button, Stack, Typography } from '@mui/material'
-import { useAtom } from 'jotai'
-import { showEndGamePopoverAtom } from '../helpers/atoms'
+import { useAtom, useAtomValue } from 'jotai'
+import { scoreAtom, showEndGamePopoverAtom } from '../helpers/atoms'
 
 type Props = {
   resetBoard: ({
@@ -13,25 +13,27 @@ type Props = {
 }
 
 export const EndGamePopover = ({ resetBoard }: Props) => {
-  const [showPopover, setShowPopover] = useAtom(showEndGamePopoverAtom)
+  const [showEndGamePopover, setShowEndGamePopover] = useAtom(showEndGamePopoverAtom)
+  const score = useAtomValue(scoreAtom)
 
-  return showPopover ? (
+  return showEndGamePopover ? (
     <Stack
       height="100%"
       width="100%"
       justifyContent="center"
       alignItems="center"
-      sx={{ position: 'absolute', background: 'white', opacity: 0.8 }}
+      sx={{ position: 'absolute', background: 'rgb(255 255 255 / 80%)' }}
       spacing={4}
     >
-      <Typography variant="h6">Game Over!</Typography>
+      <Typography variant="h4">Game Over!</Typography>
+      <Typography variant="h5">Your score: {score}</Typography>
       <Button
         size="small"
         onClick={() => {
           resetBoard({ startGame: true })
-          setShowPopover(false)
+          setShowEndGamePopover(false)
         }}
-        variant="outlined"
+        variant="contained"
         fullWidth
         sx={{ width: 200 }}
       >
