@@ -48,7 +48,7 @@ export const TetrisBoard = ({ board, moveTo, rotate, resetBoard }: Props) => {
   }, [moveTo, rotate])
 
   return (
-    <Stack height="100%" sx={{ position: 'relative' }}>
+    <Stack height="100%" width="50vh" sx={{ position: 'relative' }}>
       <StartGamePopover resetBoard={resetBoard} />
       <EndGamePopover resetBoard={resetBoard} />
       {board.map((row, y) => (
