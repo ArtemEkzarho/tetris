@@ -1,14 +1,28 @@
 import { useCallback, useEffect } from 'react'
-import { randomTetromino } from '../helpers/tetrominos'
-import { BOARD_HEIGHT, BOARD_WIDTH, createEmptyBoard, checkCollision } from '../helpers'
+import {
+  BOARD_HEIGHT,
+  BOARD_WIDTH,
+  createEmptyBoard,
+  checkCollision,
+  canPlaceTetromino,
+  getNewTetromino,
+  checkForCompleteLines,
+} from '../helpers'
 import { useMovements } from './useMovements'
-import { useAtom, useAtomValue } from 'jotai'
-import { boardAtom, currentTetrominoAtom, prevTetrominoAtom, dropTimeAtom } from '../helpers/atoms'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import {
+  boardAtom,
+  currentTetrominoAtom,
+  prevTetrominoAtom,
+  dropTimeAtom,
+  showEndGamePopoverAtom,
+} from '../helpers/atoms'
 
 export const useTetris = () => {
   const [board, setBoard] = useAtom(boardAtom)
   const [currentTetromino, setCurrentTetromino] = useAtom(currentTetrominoAtom)
   const [dropTime, setDropTime] = useAtom(dropTimeAtom)
+  const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
   const prevTetromino = useAtomValue(prevTetrominoAtom)
   const { moveTo, rotate } = useMovements()
 
@@ -18,12 +32,7 @@ export const useTetris = () => {
       setBoard(newBoard)
 
       if (startGame) {
-        setCurrentTetromino({
-          tetromino: randomTetromino(),
-          pos: { x: BOARD_WIDTH / 2 - 2, y: -1 },
-          direction: 'down',
-          rotation: 0,
-        })
+        setCurrentTetromino(getNewTetromino())
         setDropTime(500)
       }
 
@@ -34,10 +43,6 @@ export const useTetris = () => {
     },
     [setBoard, setCurrentTetromino, setDropTime]
   )
-
-  // const _checkForCompleteLines = () => {
-  //   console.log()
-  // }
 
   useEffect(() => {
     if (currentTetromino) {
@@ -80,14 +85,20 @@ export const useTetris = () => {
             })
           })
 
-          setCurrentTetromino({
-            tetromino: randomTetromino(),
-            pos: { x: BOARD_WIDTH / 2 - 2, y: -1 },
-            direction: 'down',
-            rotation: 0,
-          })
+          const { clearedBoard } = checkForCompleteLines(newBoard)
 
-          return newBoard
+          const newTetromino = getNewTetromino()
+
+          if (canPlaceTetromino(newTetromino, clearedBoard)) {
+            setCurrentTetromino(newTetromino)
+
+            return clearedBoard
+          } else {
+            setShowEndGamePopover(true)
+            setCurrentTetromino(undefined)
+            setDropTime(undefined)
+            return clearedBoard
+          }
         }
 
         currentTetromino.tetromino[currentTetromino.rotation].forEach((row, y) => {
@@ -101,7 +112,14 @@ export const useTetris = () => {
         return newBoard
       })
     }
-  }, [currentTetromino, prevTetromino, setBoard, setCurrentTetromino])
+  }, [
+    currentTetromino,
+    prevTetromino,
+    setBoard,
+    setCurrentTetromino,
+    setDropTime,
+    setShowEndGamePopover,
+  ])
 
   useEffect(() => {
     let interval: NodeJS.Timeout
