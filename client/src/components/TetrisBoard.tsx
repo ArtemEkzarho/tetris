@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
-import { Card, Stack } from '@mui/material'
+import { Card, Grid, Stack } from '@mui/material'
 import { getCellColor } from '../helpers'
 import useMobileControls from '../hooks/useMobileControls'
 import { Board } from '../helpers/types'
 import { StartGamePopover } from './StartGamePopover'
 import { EndGamePopover } from './EndGamePopover'
+import { SideBoard } from './SideBoard'
 
 type Props = {
   board: Board
@@ -26,7 +27,7 @@ export const TetrisBoard = ({ board, moveTo, rotate, resetBoard }: Props) => {
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       switch (event.key) {
-        case 'ArrowUp':
+        case 'x':
           rotate()
           break
         case 'ArrowDown':
@@ -48,20 +49,32 @@ export const TetrisBoard = ({ board, moveTo, rotate, resetBoard }: Props) => {
   }, [moveTo, rotate])
 
   return (
-    <Stack height="100%" width="50vh" sx={{ position: 'relative' }}>
-      <StartGamePopover resetBoard={resetBoard} />
-      <EndGamePopover resetBoard={resetBoard} />
-      {board.map((row, y) => (
-        <Stack flex={1} direction="row" key={y} justifyContent="space-between">
-          {row.map((cell, x) => (
-            <Card
-              variant="outlined"
-              key={x}
-              sx={{ flex: '1', width: '100%', height: '100%', backgroundColor: getCellColor(cell) }}
-            />
+    <Grid container height="100%" width="50vh">
+      <Grid item xs={9}>
+        <Stack height="100%" sx={{ position: 'relative' }}>
+          <StartGamePopover resetBoard={resetBoard} />
+          <EndGamePopover resetBoard={resetBoard} />
+          {board.map((row, y) => (
+            <Stack flex={1} direction="row" key={y} justifyContent="space-between">
+              {row.map((cell, x) => (
+                <Card
+                  variant="outlined"
+                  key={x}
+                  sx={{
+                    flex: '1',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: getCellColor(cell),
+                  }}
+                />
+              ))}
+            </Stack>
           ))}
         </Stack>
-      ))}
-    </Stack>
+      </Grid>
+      <Grid item xs={3}>
+        <SideBoard resetBoard={resetBoard} />
+      </Grid>
+    </Grid>
   )
 }
