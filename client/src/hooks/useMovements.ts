@@ -49,5 +49,9 @@ export const useMovements = () => {
     })
   }, [setCurrentTetromino, setPrevTetromino])
 
-  return { moveTo, rotate }
+  const fastDrop = () => {
+    console.log('fastDrop')
+  }
+
+  return { moveTo, rotate, fastDrop }
 }

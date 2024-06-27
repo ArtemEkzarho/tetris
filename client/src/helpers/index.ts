@@ -7,14 +7,14 @@ export const createEmptyBoard = (): Board =>
 
 export const getCellColor = (cell: Cell) =>
   ({
-    A: 'aqua',
-    B: 'blue',
-    P: 'purple',
+    I: 'aqua',
+    J: 'blue',
+    L: 'purple',
     O: 'orange',
-    T: 'darkblue',
-    H: 'hotpink',
-    G: 'green',
-    R: 'red',
+    P: 'darkblue',
+    T: 'hotpink',
+    S: 'green',
+    Z: 'red',
     '0': 'white',
   }[cell])
 
@@ -56,7 +56,7 @@ export const checkCollision = (
         }
 
         // Tetromino cell is trying to occupy an already occupied cell in the board
-        if (board[newY] && board[newY][newX] === 'T') {
+        if (board[newY] && board[newY][newX] === 'P') {
           collision.otherElements = true
         }
 

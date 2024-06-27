@@ -27,7 +27,7 @@ export const useTetris = () => {
   const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
   const prevTetromino = useAtomValue(prevTetrominoAtom)
   const setScore = useSetAtom(scoreAtom)
-  const { moveTo, rotate } = useMovements()
+  const { moveTo } = useMovements()
 
   const resetBoard = useCallback(
     ({ startGame, endGame }: { startGame?: boolean; endGame?: boolean }) => {
@@ -63,13 +63,13 @@ export const useTetris = () => {
         for (let y = 0; y < BOARD_HEIGHT; y++) {
           for (let x = 0; x < BOARD_WIDTH; x++) {
             if (
-              prev[y][x] === 'A' ||
-              prev[y][x] === 'B' ||
-              prev[y][x] === 'P' ||
+              prev[y][x] === 'I' ||
+              prev[y][x] === 'J' ||
+              prev[y][x] === 'L' ||
               prev[y][x] === 'O' ||
-              prev[y][x] === 'H' ||
-              prev[y][x] === 'G' ||
-              prev[y][x] === 'R'
+              prev[y][x] === 'T' ||
+              prev[y][x] === 'S' ||
+              prev[y][x] === 'Z'
             ) {
               newBoard[y][x] = 0
             }
@@ -146,5 +146,5 @@ export const useTetris = () => {
     return () => clearInterval(interval)
   }, [dropTime, moveTo])
 
-  return { board, resetBoard, moveTo, rotate }
+  return { board, resetBoard }
 }

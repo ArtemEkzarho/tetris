@@ -1,16 +1,14 @@
 import { useEffect } from 'react'
 import { Card, Grid, Stack } from '@mui/material'
 import { getCellColor } from '../helpers'
-import useMobileControls from '../hooks/useMobileControls'
 import { Board } from '../helpers/types'
 import { StartGamePopover } from './StartGamePopover'
 import { EndGamePopover } from './EndGamePopover'
 import { SideBoard } from './SideBoard'
+import { useMovements } from '../hooks/useMovements'
 
 type Props = {
   board: Board
-  moveTo: ({ x, y }: { x?: number | undefined; y?: number | undefined }) => void
-  rotate: () => void
   resetBoard: ({
     startGame,
     endGame,
@@ -20,10 +18,8 @@ type Props = {
   }) => void
 }
 
-export const TetrisBoard = ({ board, moveTo, rotate, resetBoard }: Props) => {
-  useMobileControls(rotate, moveTo)
-
-  // Effect to handle keyboard input
+export const TetrisBoard = ({ board, resetBoard }: Props) => {
+  const { moveTo, rotate, fastDrop } = useMovements()
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       switch (event.key) {
@@ -39,6 +35,9 @@ export const TetrisBoard = ({ board, moveTo, rotate, resetBoard }: Props) => {
         case 'ArrowRight':
           moveTo({ x: 1 })
           break
+        case 'ArrowUp':
+          fastDrop()
+          break
         default:
           break
       }
@@ -46,7 +45,7 @@ export const TetrisBoard = ({ board, moveTo, rotate, resetBoard }: Props) => {
 
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [moveTo, rotate])
+  }, [fastDrop, moveTo, rotate])
 
   return (
     <Grid container height="100%" width="50vh">
