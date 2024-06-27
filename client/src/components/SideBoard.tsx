@@ -22,9 +22,7 @@ export const SideBoard = ({ resetBoard }: Props) => {
   return (
     <Stack height="100%" sx={{ position: 'relative' }}>
       <Stack flex={1} p={2}>
-        <Typography variant="h6" textAlign="center">
-          Score: {score}
-        </Typography>
+        <Typography textAlign="center">Score: {score}</Typography>
       </Stack>
       <Stack spacing={1} p={2}>
         <Button
@@ -56,40 +54,29 @@ export const SideBoard = ({ resetBoard }: Props) => {
           End game
         </Button>
       </Stack>
-      <Stack p={1} spacing={1}>
-        <Typography variant="body1" textAlign="center">
-          Controls
-        </Typography>
+      <Stack p={1}>
         <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
-          <Typography variant="body2" textAlign="center">
-            Rotate
-          </Typography>
-          <IconButton size="small" color="primary" sx={{ width: '24px', height: '24px' }}>
-            <Close />
+          <Typography textAlign="center">Rotate</Typography>
+          <IconButton size="small" color="primary">
+            <Close sx={{ fontSize: '16px' }} />
           </IconButton>
         </Stack>
         <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
-          <Typography variant="body2" textAlign="center">
-            Drop
-          </Typography>
-          <IconButton size="small" color="primary" sx={{ width: '24px', height: '24px' }}>
-            <ArrowDownward />
+          <Typography textAlign="center">Drop</Typography>
+          <IconButton size="small" color="primary">
+            <ArrowDownward sx={{ fontSize: '16px' }} />
           </IconButton>
         </Stack>
         <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
-          <Typography variant="body2" textAlign="center">
-            Left
-          </Typography>
-          <IconButton size="small" color="primary" sx={{ width: '24px', height: '24px' }}>
-            <ArrowBack />
+          <Typography textAlign="center">Left</Typography>
+          <IconButton size="small" color="primary">
+            <ArrowBack sx={{ fontSize: '16px' }} />
           </IconButton>
         </Stack>
         <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
-          <Typography variant="body2" textAlign="center">
-            Right
-          </Typography>
-          <IconButton size="small" color="primary" sx={{ width: '24px', height: '24px' }}>
-            <ArrowForward />
+          <Typography textAlign="center">Right</Typography>
+          <IconButton size="small" color="primary">
+            <ArrowForward sx={{ fontSize: '16px' }} />
           </IconButton>
         </Stack>
       </Stack>
