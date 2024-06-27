@@ -6,11 +6,10 @@ import { Board } from '../helpers/types'
 import { StartGamePopover } from './StartGamePopover'
 import { EndGamePopover } from './EndGamePopover'
 import { SideBoard } from './SideBoard'
+import { useMovements } from '../hooks/useMovements'
 
 type Props = {
   board: Board
-  moveTo: ({ x, y }: { x?: number | undefined; y?: number | undefined }) => void
-  rotate: () => void
   resetBoard: ({
     startGame,
     endGame,
@@ -20,7 +19,9 @@ type Props = {
   }) => void
 }
 
-export const TetrisBoard = ({ board, moveTo, rotate, resetBoard }: Props) => {
+export const TetrisBoard = ({ board, resetBoard }: Props) => {
+  const { moveTo, rotate } = useMovements()
+
   useMobileControls(rotate, moveTo)
 
   // Effect to handle keyboard input

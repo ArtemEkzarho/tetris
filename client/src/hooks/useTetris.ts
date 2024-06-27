@@ -27,7 +27,7 @@ export const useTetris = () => {
   const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
   const prevTetromino = useAtomValue(prevTetrominoAtom)
   const setScore = useSetAtom(scoreAtom)
-  const { moveTo, rotate } = useMovements()
+  const { moveTo } = useMovements()
 
   const resetBoard = useCallback(
     ({ startGame, endGame }: { startGame?: boolean; endGame?: boolean }) => {
@@ -146,5 +146,5 @@ export const useTetris = () => {
     return () => clearInterval(interval)
   }, [dropTime, moveTo])
 
-  return { board, resetBoard, moveTo, rotate }
+  return { board, resetBoard }
 }
