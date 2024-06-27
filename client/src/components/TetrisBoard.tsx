@@ -20,6 +20,8 @@ type Props = {
 
 export const TetrisBoard = ({ board, resetBoard }: Props) => {
   const { moveTo, rotate, fastDrop } = useMovements()
+
+  // Effect to handle keyboard input
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       switch (event.key) {

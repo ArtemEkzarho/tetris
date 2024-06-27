@@ -37,9 +37,7 @@ export const SideBoard = ({ resetBoard }: Props) => {
   return (
     <Stack height="100%" sx={{ position: 'relative' }}>
       <Stack flex={1} p={2}>
-        <Typography variant="h6" textAlign="center">
-          Score: {score}
-        </Typography>
+        <Typography textAlign="center">Score: {score}</Typography>
       </Stack>
       <Stack spacing={1} p={2}>
         <Button variant="outlined" onClick={restartHandler}>
