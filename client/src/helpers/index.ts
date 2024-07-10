@@ -3,7 +3,7 @@ import { randomTetromino } from './tetrominos'
 import { Board, Cell, Collision, Position, Tetromino, TetrominoConfig } from './types'
 
 export const createEmptyBoard = (): Board =>
-  Array.from({ length: BOARD_HEIGHT }, () => Array(BOARD_WIDTH).fill(0))
+  Array.from({ length: BOARD_HEIGHT }, () => Array(BOARD_WIDTH).fill('EMPTY_CELL'))
 
 export const getCellColor = (cell: Cell) =>
   ({
@@ -11,16 +11,25 @@ export const getCellColor = (cell: Cell) =>
     J: 'blue',
     L: 'purple',
     O: 'orange',
-    P: 'darkblue',
     T: 'hotpink',
     S: 'green',
     Z: 'red',
-    '0': 'white',
+    FIXED_I: 'rgb(0, 230, 230)',
+    FIXED_J: 'rgb(0, 0, 230)',
+    FIXED_L: 'rgb(103, 0, 103)',
+    FIXED_O: 'rgb(230, 140, 0)',
+    FIXED_T: 'rgb(230, 80, 155)',
+    FIXED_S: 'rgb(0, 103, 0)',
+    FIXED_Z: 'rgb(230, 0, 0)',
+    EMPTY_CELL: 'white',
   }[cell])
 
 export const getNewTetromino = (): TetrominoConfig => {
+  const { tetromino, letter } = randomTetromino()
+
   return {
-    tetromino: randomTetromino(),
+    tetromino,
+    letter,
     pos: { x: BOARD_WIDTH / 2 - 2, y: -1 },
     direction: 'down',
     rotation: 0,
@@ -41,8 +50,8 @@ export const checkCollision = (
 
   for (let y = 0; y < tetromino[rotation].length; y++) {
     for (let x = 0; x < tetromino[rotation][y].length; x++) {
-      // Only check occupied cells in the tetromino (i.e., cells that are not '0')
-      if (tetromino[rotation][y][x] !== 0) {
+      // Only check occupied cells in the tetromino (i.e., cells that are not 'EMPTY_CELL')
+      if (tetromino[rotation][y][x] !== 'EMPTY_CELL') {
         const newX = x + pos.x
         const newY = y + pos.y
 
@@ -56,7 +65,15 @@ export const checkCollision = (
         }
 
         // Tetromino cell is trying to occupy an already occupied cell in the board
-        if (board[newY] && board[newY][newX] === 'P') {
+        if (
+          (board[newY] && board[newY][newX] === 'FIXED_I') ||
+          (board[newY] && board[newY][newX] === 'FIXED_J') ||
+          (board[newY] && board[newY][newX] === 'FIXED_L') ||
+          (board[newY] && board[newY][newX] === 'FIXED_O') ||
+          (board[newY] && board[newY][newX] === 'FIXED_S') ||
+          (board[newY] && board[newY][newX] === 'FIXED_T') ||
+          (board[newY] && board[newY][newX] === 'FIXED_Z')
+        ) {
           collision.otherElements = true
         }
 
@@ -78,7 +95,7 @@ export function canPlaceTetromino(
 
   for (let y = 0; y < tetromino[rotation].length; y++) {
     for (let x = 0; x < tetromino[y].length; x++) {
-      if (tetromino[rotation][y][x] !== 0) {
+      if (tetromino[rotation][y][x] !== 'EMPTY_CELL') {
         // part of the tetromino
         const boardX = x + pos.x
         const boardY = y + pos.y
@@ -89,7 +106,7 @@ export function canPlaceTetromino(
         }
 
         // Check if the position is already occupied on the board
-        if (board[boardY][boardX] !== 0) {
+        if (board[boardY][boardX] !== 'EMPTY_CELL') {
           return false
         }
       }
@@ -101,13 +118,13 @@ export function canPlaceTetromino(
 export const checkForCompleteLines = (board: Board) => {
   let linesCleared = 0
   const width = board[0].length
-  const newBoard = board.filter((row) => row.some((cell) => cell === 0)) // Keep only non-full rows
+  const newBoard = board.filter((row) => row.some((cell) => cell === 'EMPTY_CELL')) // Keep only non-full rows
 
   linesCleared = board.length - newBoard.length // Count how many lines were cleared
 
   // For each cleared line, add an empty row at the top of the board
   while (newBoard.length < board.length) {
-    newBoard.unshift(Array(width).fill(0)) // 0 is the value for an empty cell
+    newBoard.unshift(Array(width).fill('EMPTY_CELL')) // EMPTY_CELL is the value for an empty cell
   }
 
   return { clearedBoard: newBoard, linesCleared }

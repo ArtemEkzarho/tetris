@@ -12,8 +12,12 @@ const getDirection = (x?: number, y?: number) => {
 
 const getNextRotation = (rotation: number) => {
   if (rotation === 3) return 0
-
   return rotation + 1
+}
+
+const getPrevRotation = (rotation: number) => {
+  if (rotation === 0) return 3
+  return rotation - 1
 }
 
 export const useMovements = () => {
@@ -36,18 +40,22 @@ export const useMovements = () => {
     [setCurrentTetromino, setPrevTetromino]
   )
 
-  const rotate = useCallback(() => {
-    setCurrentTetromino((prev) => {
-      setPrevTetromino(prev)
-      return prev
-        ? {
-            ...prev,
-            rotation: getNextRotation(prev.rotation),
-            direction: 'rotation',
-          }
-        : undefined
-    })
-  }, [setCurrentTetromino, setPrevTetromino])
+  const rotate = useCallback(
+    (turn: 'left' | 'right') => {
+      setCurrentTetromino((prev) => {
+        setPrevTetromino(prev)
+        return prev
+          ? {
+              ...prev,
+              rotation:
+                turn === 'left' ? getPrevRotation(prev.rotation) : getNextRotation(prev.rotation),
+              direction: 'rotation',
+            }
+          : undefined
+      })
+    },
+    [setCurrentTetromino, setPrevTetromino]
+  )
 
   const fastDrop = () => {
     console.log('fastDrop')
