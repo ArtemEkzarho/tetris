@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
-import { Card, Grid, Stack } from '@mui/material'
+import { Box, Grid, Stack } from '@mui/material'
 import { getCellColor } from '../helpers'
-import useMobileControls from '../hooks/useMobileControls'
 import { Board } from '../helpers/types'
 import { StartGamePopover } from './StartGamePopover'
 import { EndGamePopover } from './EndGamePopover'
@@ -20,16 +19,16 @@ type Props = {
 }
 
 export const TetrisBoard = ({ board, resetBoard }: Props) => {
-  const { moveTo, rotate } = useMovements()
+  const { moveTo, rotate, fastDrop } = useMovements()
 
-  useMobileControls(rotate, moveTo)
-
-  // Effect to handle keyboard input
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       switch (event.key) {
+        case 'z':
+          rotate('left')
+          break
         case 'x':
-          rotate()
+          rotate('right')
           break
         case 'ArrowDown':
           moveTo({ y: 1 })
@@ -40,6 +39,9 @@ export const TetrisBoard = ({ board, resetBoard }: Props) => {
         case 'ArrowRight':
           moveTo({ x: 1 })
           break
+        case 'ArrowUp':
+          fastDrop()
+          break
         default:
           break
       }
@@ -47,26 +49,27 @@ export const TetrisBoard = ({ board, resetBoard }: Props) => {
 
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [moveTo, rotate])
+  }, [fastDrop, moveTo, rotate])
 
   return (
-    <Grid container height="100%" width="50vh">
+    <Grid container height="100%" py={1}>
       <Grid item xs={9}>
         <Stack height="100%" sx={{ position: 'relative' }}>
           <StartGamePopover resetBoard={resetBoard} />
           <EndGamePopover resetBoard={resetBoard} />
           {board.map((row, y) => (
-            <Stack flex={1} direction="row" key={y} justifyContent="space-between">
+            <Stack
+              className="cells-container"
+              flex={1}
+              direction="row"
+              key={y}
+              justifyContent="space-between"
+            >
               {row.map((cell, x) => (
-                <Card
-                  variant="outlined"
+                <Box
+                  className={`cell ${cell !== 'EMPTY_CELL' ? 'brick' : ''}`}
                   key={x}
-                  sx={{
-                    flex: '1',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: getCellColor(cell),
-                  }}
+                  style={{ color: getCellColor(cell) }}
                 />
               ))}
             </Stack>

@@ -63,15 +63,15 @@ export const useTetris = () => {
         for (let y = 0; y < BOARD_HEIGHT; y++) {
           for (let x = 0; x < BOARD_WIDTH; x++) {
             if (
-              prev[y][x] === 'A' ||
-              prev[y][x] === 'B' ||
-              prev[y][x] === 'P' ||
+              prev[y][x] === 'I' ||
+              prev[y][x] === 'J' ||
+              prev[y][x] === 'L' ||
               prev[y][x] === 'O' ||
-              prev[y][x] === 'H' ||
-              prev[y][x] === 'G' ||
-              prev[y][x] === 'R'
+              prev[y][x] === 'T' ||
+              prev[y][x] === 'S' ||
+              prev[y][x] === 'Z'
             ) {
-              newBoard[y][x] = 0
+              newBoard[y][x] = 'EMPTY_CELL'
             }
           }
         }
@@ -90,8 +90,10 @@ export const useTetris = () => {
         if ((bottom || otherElements) && prevTetromino) {
           prevTetromino.tetromino[prevTetromino.rotation].forEach((row, y) => {
             row.forEach((value, x) => {
-              if (value !== 0) {
-                newBoard[y + prevTetromino.pos.y][x + prevTetromino.pos.x] = 'T'
+              if (value !== 'EMPTY_CELL') {
+                newBoard[y + prevTetromino.pos.y][
+                  x + prevTetromino.pos.x
+                ] = `FIXED_${prevTetromino.letter}`
               }
             })
           })
@@ -115,7 +117,7 @@ export const useTetris = () => {
 
         currentTetromino.tetromino[currentTetromino.rotation].forEach((row, y) => {
           row.forEach((value, x) => {
-            if (value !== 0) {
+            if (value !== 'EMPTY_CELL') {
               newBoard[y + currentTetromino.pos.y][x + currentTetromino.pos.x] = value
             }
           })
