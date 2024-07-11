@@ -1,6 +1,7 @@
-import { Button, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { useAtom } from 'jotai'
 import { showStartGamePopoverAtom } from '../helpers/atoms'
+import { MenuButton } from './common/MenuButton'
 
 type Props = {
   resetBoard: ({
@@ -23,18 +24,14 @@ export const StartGamePopover = ({ resetBoard }: Props) => {
       alignItems="center"
       sx={{ position: 'absolute', background: 'rgb(255 255 255 / 80%)' }}
     >
-      <Button
-        size="small"
+      <MenuButton
         onClick={() => {
           resetBoard({ startGame: true })
           setShowPopover(false)
         }}
-        variant="contained"
-        fullWidth
-        sx={{ width: 200 }}
       >
         Start Game
-      </Button>
+      </MenuButton>
     </Stack>
   ) : null
 }

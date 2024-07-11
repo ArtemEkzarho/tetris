@@ -1,6 +1,7 @@
-import { Button, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { useAtom, useAtomValue } from 'jotai'
 import { scoreAtom, showEndGamePopoverAtom } from '../helpers/atoms'
+import { MenuButton } from './common/MenuButton'
 
 type Props = {
   resetBoard: ({
@@ -27,18 +28,14 @@ export const EndGamePopover = ({ resetBoard }: Props) => {
     >
       <Typography variant="h4">Game Over!</Typography>
       <Typography variant="h5">Your score: {score}</Typography>
-      <Button
-        size="small"
+      <MenuButton
         onClick={() => {
           resetBoard({ startGame: true })
           setShowEndGamePopover(false)
         }}
-        variant="contained"
-        fullWidth
-        sx={{ width: 200 }}
       >
         Play Again
-      </Button>
+      </MenuButton>
     </Stack>
   ) : null
 }

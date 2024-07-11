@@ -7,7 +7,7 @@ export const GitHubLink = () => (
       size="small"
       target="_blank"
       href="https://github.com/ArtemEkzarho/tetris-reactts"
-      sx={{ position: 'fixed', top: 0, right: 0, zIndex: 1 }}
+      sx={{ position: 'fixed', bottom: 0, right: 0, zIndex: 1 }}
     >
       <GitHub />
     </IconButton>

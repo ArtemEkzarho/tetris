@@ -1,6 +1,7 @@
-import { Button, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { scoreAtom, showEndGamePopoverAtom, showStartGamePopoverAtom } from '../helpers/atoms'
+import { MenuButton } from './common/MenuButton'
 
 type Props = {
   resetBoard: ({
@@ -37,13 +38,9 @@ export const SideBoard = ({ resetBoard }: Props) => {
       <Stack flex={1} pt={2}>
         <Typography textAlign="center">Score: {score}</Typography>
       </Stack>
-      <Stack spacing={1} px={2}>
-        <Button variant="outlined" onClick={restartHandler}>
-          Restart
-        </Button>
-        <Button variant="outlined" onClick={endGameHandler}>
-          End game
-        </Button>
+      <Stack spacing={1}>
+        <MenuButton onClick={restartHandler}>Restart</MenuButton>
+        <MenuButton onClick={endGameHandler}>End game</MenuButton>
       </Stack>
     </Stack>
   )
