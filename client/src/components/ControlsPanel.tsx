@@ -7,37 +7,8 @@ import {
   RotateRight,
 } from '@mui/icons-material'
 import { useMovements } from '../hooks/useMovements'
-import { ReactNode } from 'react'
 import { Stack } from '@mui/material'
-
-const ControlButton = ({
-  children,
-  type,
-  onClick,
-}: {
-  children: ReactNode
-  type?: 'medium' | 'big'
-  onClick?: () => void
-}) => (
-  <button
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: type === 'big' ? '60px' : '50px',
-      height: type === 'big' ? '60px' : '50px',
-      border: 'none',
-      borderRadius: '5px',
-      backgroundColor: '#007bff',
-      color: 'white',
-      cursor: 'pointer',
-      userSelect: 'none',
-    }}
-    onClick={onClick}
-  >
-    {children}
-  </button>
-)
+import { ControlButton } from './common/ControlButton'
 
 export const ControlsPanel = () => {
   const { moveTo, rotate } = useMovements()

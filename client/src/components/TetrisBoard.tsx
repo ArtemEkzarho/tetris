@@ -52,11 +52,11 @@ export const TetrisBoard = ({ board, resetBoard }: Props) => {
   }, [fastDrop, moveTo, rotate])
 
   return (
-    <Grid container height="100%" py={1}>
-      <Grid item xs={9}>
-        <Stack height="100%" sx={{ position: 'relative' }}>
-          <StartGamePopover resetBoard={resetBoard} />
-          <EndGamePopover resetBoard={resetBoard} />
+    <Grid container height="100%" p={1} spacing={1}>
+      <Grid item xs={9} sx={{ position: 'relative' }}>
+        <StartGamePopover resetBoard={resetBoard} />
+        <EndGamePopover resetBoard={resetBoard} />
+        <Stack height="100%">
           {board.map((row, y) => (
             <Stack
               className="cells-container"
