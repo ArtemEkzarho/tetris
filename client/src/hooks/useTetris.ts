@@ -8,6 +8,7 @@ import {
   getNewTetromino,
   checkForCompleteLines,
   countScore,
+  getDropTime,
 } from '../helpers'
 import { useMovements } from './useMovements'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
@@ -18,6 +19,7 @@ import {
   dropTimeAtom,
   showEndGamePopoverAtom,
   scoreAtom,
+  clearedLineCountAtom,
 } from '../helpers/atoms'
 
 export const useTetris = () => {
@@ -27,6 +29,7 @@ export const useTetris = () => {
   const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
   const prevTetromino = useAtomValue(prevTetrominoAtom)
   const setScore = useSetAtom(scoreAtom)
+  const setClearedLineCount = useSetAtom(clearedLineCountAtom)
   const { moveTo } = useMovements()
 
   const resetBoard = useCallback(
@@ -36,15 +39,16 @@ export const useTetris = () => {
 
       if (startGame) {
         setCurrentTetromino(getNewTetromino())
-        setDropTime(500)
+        setDropTime(800)
       }
 
       if (endGame) {
         setCurrentTetromino(undefined)
         setDropTime(undefined)
+        setClearedLineCount(0)
       }
     },
-    [setBoard, setCurrentTetromino, setDropTime]
+    [setBoard, setClearedLineCount, setCurrentTetromino, setDropTime]
   )
 
   const updateScore = useCallback(
@@ -53,6 +57,19 @@ export const useTetris = () => {
       setScore((prev) => prev + newScore)
     },
     [setScore]
+  )
+
+  const updateLevel = useCallback(
+    (linesCleared: number) => {
+      setClearedLineCount((prev) => {
+        const newLinesCount = prev + linesCleared
+        const newDropTime = getDropTime(newLinesCount)
+        setDropTime(newDropTime)
+
+        return prev + linesCleared
+      })
+    },
+    [setClearedLineCount, setDropTime]
   )
 
   useEffect(() => {
@@ -87,6 +104,7 @@ export const useTetris = () => {
           return prev
         }
 
+        //fix tetromino
         if ((bottom || otherElements) && prevTetromino) {
           prevTetromino.tetromino[prevTetromino.rotation].forEach((row, y) => {
             row.forEach((value, x) => {
@@ -100,6 +118,7 @@ export const useTetris = () => {
 
           const { clearedBoard, linesCleared } = checkForCompleteLines(newBoard)
           updateScore(linesCleared)
+          updateLevel(linesCleared)
 
           const newTetromino = getNewTetromino()
 
@@ -111,6 +130,7 @@ export const useTetris = () => {
             setShowEndGamePopover(true)
             setCurrentTetromino(undefined)
             setDropTime(undefined)
+            setClearedLineCount(0)
             return clearedBoard
           }
         }
@@ -130,9 +150,11 @@ export const useTetris = () => {
     currentTetromino,
     prevTetromino,
     setBoard,
+    setClearedLineCount,
     setCurrentTetromino,
     setDropTime,
     setShowEndGamePopover,
+    updateLevel,
     updateScore,
   ])
 
