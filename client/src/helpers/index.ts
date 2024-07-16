@@ -1,4 +1,4 @@
-import { BOARD_HEIGHT, BOARD_WIDTH } from './consts'
+import { BOARD_HEIGHT, BOARD_WIDTH, DROP_TIMES, LEVELS } from './consts'
 import { randomTetromino } from './tetrominos'
 import { Board, Cell, Collision, Position, Tetromino, TetrominoConfig } from './types'
 
@@ -161,6 +161,34 @@ export const countScore = (linesCleared: number, level: number) => {
       score = 0
   }
   return score
+}
+export const getDropTime = (linesCleared: number) => {
+  // Determine the current level based on lines cleared
+  let currentLevel = 0
+  Object.keys(LEVELS).forEach((level) => {
+    if (linesCleared >= LEVELS[Number(level)]) {
+      currentLevel = parseInt(level)
+    }
+  })
+
+  // Special case for Levels 10 and more
+  if (linesCleared > 100) {
+    return DROP_TIMES[10]
+  }
+
+  return DROP_TIMES[currentLevel] // Return the drop time for the determined level
+}
+
+export const getLevel = (linesCleared: number) => {
+  // Determine the current level based on lines cleared
+  let currentLevel = 0
+  Object.keys(LEVELS).forEach((level) => {
+    if (linesCleared >= LEVELS[Number(level)]) {
+      currentLevel = parseInt(level)
+    }
+  })
+
+  return currentLevel
 }
 
 export { BOARD_WIDTH, BOARD_HEIGHT } from './consts'

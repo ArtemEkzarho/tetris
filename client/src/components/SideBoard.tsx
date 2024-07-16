@@ -1,7 +1,13 @@
 import { Stack, Typography } from '@mui/material'
-import { useAtomValue, useSetAtom } from 'jotai'
-import { scoreAtom, showEndGamePopoverAtom, showStartGamePopoverAtom } from '../helpers/atoms'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import {
+  clearedLineCountAtom,
+  scoreAtom,
+  showEndGamePopoverAtom,
+  showStartGamePopoverAtom,
+} from '../helpers/atoms'
 import { MenuButton } from './common/MenuButton'
+import { getLevel } from '../helpers'
 
 type Props = {
   resetBoard: ({
@@ -18,11 +24,13 @@ export const SideBoard = ({ resetBoard }: Props) => {
   const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
   const setShowStartGamePopover = useSetAtom(showStartGamePopoverAtom)
   const setScore = useSetAtom(scoreAtom)
+  const [clearedLineCount, setClearedLineCount] = useAtom(clearedLineCountAtom)
 
   const restartHandler = () => {
     setShowEndGamePopover(false)
     setShowStartGamePopover(false)
     setScore(0)
+    setClearedLineCount(0)
     resetBoard({ startGame: true })
   }
 
@@ -30,13 +38,25 @@ export const SideBoard = ({ resetBoard }: Props) => {
     resetBoard({ endGame: true })
     setShowStartGamePopover(true)
     setShowEndGamePopover(false)
+    setClearedLineCount(0)
     setScore(0)
   }
 
   return (
     <Stack height="100%" sx={{ position: 'relative' }}>
-      <Stack flex={1} pt={2}>
-        <Typography textAlign="center">Score: {score}</Typography>
+      <Stack flex={1} pt={2} spacing={1}>
+        <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Typography textAlign="center">Score: </Typography>
+          <Typography>{score}</Typography>
+        </Stack>
+        <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Typography textAlign="center">Level: </Typography>
+          <Typography>{getLevel(clearedLineCount)}</Typography>
+        </Stack>
+        <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Typography textAlign="center">Cleared line: </Typography>
+          <Typography>{clearedLineCount}</Typography>
+        </Stack>
       </Stack>
       <Stack spacing={1}>
         <MenuButton onClick={restartHandler}>Restart</MenuButton>

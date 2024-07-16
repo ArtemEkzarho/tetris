@@ -2,11 +2,9 @@ import { ReactNode } from 'react'
 
 export const ControlButton = ({
   children,
-  type,
   onClick,
 }: {
   children: ReactNode
-  type?: 'medium' | 'big'
   onClick?: () => void
 }) => (
   <button
@@ -14,8 +12,8 @@ export const ControlButton = ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: type === 'big' ? '40px' : '30px',
-      height: type === 'big' ? '40px' : '30px',
+      width: '100%',
+      height: '100%',
       border: 'none',
       borderRadius: '5px',
       backgroundColor: '#007bff',
