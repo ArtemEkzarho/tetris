@@ -1,7 +1,6 @@
-import { useCallback } from 'react'
 import { useSetAtom } from 'jotai'
-import { currentTetrominoAtom, prevTetrominoAtom } from '../helpers/atoms'
-// import { BOARD_HEIGHT, BOARD_WIDTH } from '../helpers'
+import { currentTetrominoAtom, prevTetrominoAtom } from './atoms'
+import { useCallback } from 'react'
 
 const getDirection = (x?: number, y?: number) => {
   if (x === 1) return 'right'
@@ -59,29 +58,5 @@ export const useMovements = () => {
     [setCurrentTetromino, setPrevTetromino]
   )
 
-  const fastDrop = useCallback(() => {
-    // setCurrentTetromino((prev) => {
-    //   if (!prev) return undefined
-    //   const tetromino = prev.tetromino[prev.rotation]
-    //   const pos = prev.pos
-    //   for (let y = 0; y < tetromino.length; y++) {
-    //     for (let x = 0; x < tetromino[y].length; x++) {
-    //       // Only check occupied cells in the tetromino (i.e., cells that are not 'EMPTY_CELL')
-    //       if (tetromino[y][x] !== 'EMPTY_CELL') {
-    //         const newX = x + pos.x
-    //         const newY = y + pos.y
-    //         console.log(newX, newY)
-    //         console.log(board[newX][newY])
-    //       }
-    //     }
-    //   }
-    //   setPrevTetromino(prev)
-    //   return {
-    //     ...prev,
-    //     direction: 'down',
-    //   }
-    // })
-  }, [])
-
-  return { moveTo, rotate, fastDrop }
+  return { moveTo, rotate }
 }
