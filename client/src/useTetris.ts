@@ -1,36 +1,54 @@
 import { useCallback, useEffect } from 'react'
-import {
-  BOARD_HEIGHT,
-  BOARD_WIDTH,
-  createEmptyBoard,
-  checkCollision,
-  canPlaceTetromino,
-  getNewTetromino,
-  checkForCompleteLines,
-  countScore,
-  getDropTime,
-} from '../helpers'
-import { useMovements } from './useMovements'
+
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import {
   boardAtom,
   currentTetrominoAtom,
+  levelAtom,
+  linesClearedAtom,
+  nextTetrominoAtom,
   prevTetrominoAtom,
-  dropTimeAtom,
-  showEndGamePopoverAtom,
   scoreAtom,
-  clearedLineCountAtom,
-} from '../helpers/atoms'
+  showEndGamePopoverAtom,
+  tetrisesCountAtom,
+} from './atoms'
+import {
+  canPlaceTetromino,
+  checkCollision,
+  checkForCompleteLines,
+  countScore,
+  createEmptyBoard,
+  getDropTime,
+  getNewTetromino,
+} from './helpers'
+import { BOARD_HEIGHT, BOARD_WIDTH, LEVELS, TETRO_LETTERS } from './const'
+import { FallingTetrominoCell } from './types'
+import { useMovements } from './useMovements'
 
 export const useTetris = () => {
   const [board, setBoard] = useAtom(boardAtom)
-  const [currentTetromino, setCurrentTetromino] = useAtom(currentTetrominoAtom)
-  const [dropTime, setDropTime] = useAtom(dropTimeAtom)
-  const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
-  const prevTetromino = useAtomValue(prevTetrominoAtom)
-  const setScore = useSetAtom(scoreAtom)
-  const setClearedLineCount = useSetAtom(clearedLineCountAtom)
   const { moveTo } = useMovements()
+  const [currentTetromino, setCurrentTetromino] = useAtom(currentTetrominoAtom)
+  const [nextTetromino, setNextTetromino] = useAtom(nextTetrominoAtom)
+  const [linesCleared, setLinesCleared] = useAtom(linesClearedAtom)
+  const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
+  const setScore = useSetAtom(scoreAtom)
+  const prevTetromino = useAtomValue(prevTetrominoAtom)
+  const [level, setLevel] = useAtom(levelAtom)
+  const setTetrisesCount = useSetAtom(tetrisesCountAtom)
+
+  const placeNewTetromino = useCallback(() => {
+    setTetrisesCount((prev) => prev + 1)
+    setNextTetromino((prev) => {
+      if (prev) {
+        setCurrentTetromino(prev)
+      } else {
+        setCurrentTetromino(getNewTetromino())
+      }
+
+      return getNewTetromino()
+    })
+  }, [setCurrentTetromino, setNextTetromino, setTetrisesCount])
 
   const resetBoard = useCallback(
     ({ startGame, endGame }: { startGame?: boolean; endGame?: boolean }) => {
@@ -38,39 +56,38 @@ export const useTetris = () => {
       setBoard(newBoard)
 
       if (startGame) {
-        setCurrentTetromino(getNewTetromino())
-        setDropTime(800)
+        placeNewTetromino()
       }
 
       if (endGame) {
         setCurrentTetromino(undefined)
-        setDropTime(undefined)
-        setClearedLineCount(0)
       }
     },
-    [setBoard, setClearedLineCount, setCurrentTetromino, setDropTime]
+    [placeNewTetromino, setBoard, setCurrentTetromino]
   )
 
-  const updateScore = useCallback(
-    (linesCleared: number) => {
-      const newScore = countScore(linesCleared, 1)
-      setScore((prev) => prev + newScore)
-    },
-    [setScore]
-  )
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    const dropTime = getDropTime(level)
+    if (dropTime) {
+      interval = setInterval(() => {
+        moveTo({ y: 1 })
+      }, dropTime)
+    }
 
-  const updateLevel = useCallback(
-    (linesCleared: number) => {
-      setClearedLineCount((prev) => {
-        const newLinesCount = prev + linesCleared
-        const newDropTime = getDropTime(newLinesCount)
-        setDropTime(newDropTime)
+    return () => clearInterval(interval)
+  }, [level, moveTo])
 
-        return prev + linesCleared
-      })
-    },
-    [setClearedLineCount, setDropTime]
-  )
+  useEffect(() => {
+    if (linesCleared) {
+      const currentLevel = Object.keys(LEVELS)
+        .reverse()
+        .find((key) => linesCleared >= LEVELS[Number(key)])
+      if (currentLevel !== undefined) {
+        setLevel(parseInt(currentLevel))
+      }
+    }
+  }, [linesCleared, setLevel])
 
   useEffect(() => {
     if (currentTetromino) {
@@ -79,15 +96,7 @@ export const useTetris = () => {
 
         for (let y = 0; y < BOARD_HEIGHT; y++) {
           for (let x = 0; x < BOARD_WIDTH; x++) {
-            if (
-              prev[y][x] === 'I' ||
-              prev[y][x] === 'J' ||
-              prev[y][x] === 'L' ||
-              prev[y][x] === 'O' ||
-              prev[y][x] === 'T' ||
-              prev[y][x] === 'S' ||
-              prev[y][x] === 'Z'
-            ) {
+            if (TETRO_LETTERS.includes(prev[y][x] as FallingTetrominoCell)) {
               newBoard[y][x] = 'EMPTY_CELL'
             }
           }
@@ -117,20 +126,18 @@ export const useTetris = () => {
           })
 
           const { clearedBoard, linesCleared } = checkForCompleteLines(newBoard)
-          updateScore(linesCleared)
-          updateLevel(linesCleared)
+          setLinesCleared((prev) => prev + linesCleared)
+          setScore((prev) => prev + countScore(linesCleared, level))
 
-          const newTetromino = getNewTetromino()
+          const newTetromino = nextTetromino!
 
           if (canPlaceTetromino(newTetromino, clearedBoard)) {
-            setCurrentTetromino(newTetromino)
+            placeNewTetromino()
 
             return clearedBoard
           } else {
             setShowEndGamePopover(true)
             setCurrentTetromino(undefined)
-            setDropTime(undefined)
-            setClearedLineCount(0)
             return clearedBoard
           }
         }
@@ -148,27 +155,16 @@ export const useTetris = () => {
     }
   }, [
     currentTetromino,
+    level,
+    nextTetromino,
+    placeNewTetromino,
     prevTetromino,
     setBoard,
-    setClearedLineCount,
     setCurrentTetromino,
-    setDropTime,
+    setLinesCleared,
+    setScore,
     setShowEndGamePopover,
-    updateLevel,
-    updateScore,
   ])
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout
-
-    if (dropTime) {
-      interval = setInterval(() => {
-        moveTo({ y: 1 })
-      }, dropTime)
-    }
-
-    return () => clearInterval(interval)
-  }, [dropTime, moveTo])
 
   return { board, resetBoard }
 }

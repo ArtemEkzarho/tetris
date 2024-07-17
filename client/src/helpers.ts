@@ -1,28 +1,17 @@
-import { BOARD_HEIGHT, BOARD_WIDTH, DROP_TIMES, LEVELS } from './consts'
-import { randomTetromino } from './tetrominos'
-import { Board, Cell, Collision, Position, Tetromino, TetrominoConfig } from './types'
+import { BOARD_HEIGHT, BOARD_WIDTH, DROP_TIMES, TETRO_LETTERS } from './const'
+import { TETROMINOS } from './tetrominos'
+import { Board, Collision, Position, Tetromino, TetrominoConfig } from './types'
 
 export const createEmptyBoard = (): Board =>
   Array.from({ length: BOARD_HEIGHT }, () => Array(BOARD_WIDTH).fill('EMPTY_CELL'))
 
-export const getCellColor = (cell: Cell) =>
-  ({
-    I: 'aqua',
-    J: 'blue',
-    L: 'purple',
-    O: 'orange',
-    T: 'hotpink',
-    S: 'green',
-    Z: 'red',
-    FIXED_I: 'rgb(0, 230, 230)',
-    FIXED_J: 'rgb(0, 0, 230)',
-    FIXED_L: 'rgb(103, 0, 103)',
-    FIXED_O: 'rgb(230, 140, 0)',
-    FIXED_T: 'rgb(230, 80, 155)',
-    FIXED_S: 'rgb(0, 103, 0)',
-    FIXED_Z: 'rgb(230, 0, 0)',
-    EMPTY_CELL: 'white',
-  }[cell])
+export const randomTetromino = () => {
+  const randIndex = Math.floor(Math.random() * TETRO_LETTERS.length)
+  return {
+    tetromino: TETROMINOS[TETRO_LETTERS[randIndex]],
+    letter: TETRO_LETTERS[randIndex],
+  }
+}
 
 export const getNewTetromino = (): TetrominoConfig => {
   const { tetromino, letter } = randomTetromino()
@@ -162,33 +151,12 @@ export const countScore = (linesCleared: number, level: number) => {
   }
   return score
 }
-export const getDropTime = (linesCleared: number) => {
-  // Determine the current level based on lines cleared
-  let currentLevel = 0
-  Object.keys(LEVELS).forEach((level) => {
-    if (linesCleared >= LEVELS[Number(level)]) {
-      currentLevel = parseInt(level)
-    }
-  })
 
-  // Special case for Levels 10 and more
-  if (linesCleared > 100) {
+export function getDropTime(level: number): number {
+  if (level > 10) {
     return DROP_TIMES[10]
   }
 
-  return DROP_TIMES[currentLevel] // Return the drop time for the determined level
+  // Return the drop time for the specified level
+  return DROP_TIMES[level]
 }
-
-export const getLevel = (linesCleared: number) => {
-  // Determine the current level based on lines cleared
-  let currentLevel = 0
-  Object.keys(LEVELS).forEach((level) => {
-    if (linesCleared >= LEVELS[Number(level)]) {
-      currentLevel = parseInt(level)
-    }
-  })
-
-  return currentLevel
-}
-
-export { BOARD_WIDTH, BOARD_HEIGHT } from './consts'

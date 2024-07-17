@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material'
 import { useAtom, useAtomValue } from 'jotai'
-import { scoreAtom, showEndGamePopoverAtom } from '../helpers/atoms'
-import { MenuButton } from './common/MenuButton'
+import { scoreAtom, showEndGamePopoverAtom } from './atoms'
+import { MenuButton } from './MenuButton'
 
 type Props = {
   resetBoard: ({
@@ -23,7 +23,7 @@ export const EndGamePopover = ({ resetBoard }: Props) => {
       width="100%"
       justifyContent="center"
       alignItems="center"
-      sx={{ position: 'absolute', background: 'rgb(255 255 255 / 80%)' }}
+      sx={{ position: 'absolute', background: 'rgb(0 0 0 / 73%)' }}
       spacing={4}
     >
       <Typography variant="h4">Game Over!</Typography>

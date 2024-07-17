@@ -1,5 +1,4 @@
-import { TETRO_LETTERS } from './consts'
-import { FallingTetrominoCell, Tetrominos } from './types'
+import { Tetrominos } from './types'
 
 export const TETROMINOS: Tetrominos = {
   I: [
@@ -184,12 +183,4 @@ export const TETROMINOS: Tetrominos = {
       ['EMPTY_CELL', 'EMPTY_CELL', 'EMPTY_CELL', 'EMPTY_CELL'],
     ],
   ],
-}
-
-export const randomTetromino = () => {
-  const randIndex = Math.floor(Math.random() * TETRO_LETTERS.length)
-  return {
-    tetromino: TETROMINOS[TETRO_LETTERS[randIndex]],
-    letter: TETRO_LETTERS[randIndex] as FallingTetrominoCell,
-  }
 }

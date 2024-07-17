@@ -11,22 +11,19 @@ export type FixedTetromino =
   | 'FIXED_Z'
 export type Board = Cell[][]
 export type Position = { x: number; y: number }
-export type Collision = {
-  bottom: boolean
-  boundary: boolean
-  otherElements: boolean
-}
-
 export type Tetromino = (FallingTetrominoCell | EmptyCell)[][]
-
 export interface Tetrominos {
   [key: string]: Tetromino[]
 }
-
 export type TetrominoConfig = {
   tetromino: Tetromino[]
   letter: FallingTetrominoCell
   pos: Position
   direction: 'left' | 'right' | 'down' | 'rotation'
   rotation: number
+}
+export type Collision = {
+  bottom: boolean
+  boundary: boolean
+  otherElements: boolean
 }
