@@ -3,17 +3,20 @@ import { ReactNode } from 'react'
 export const ControlButton = ({
   children,
   onClick,
+  size,
 }: {
   children: ReactNode
   onClick?: () => void
+  size?: number
 }) => (
   <button
     style={{
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: '100%',
-      height: '100%',
+      width: size ? `${size}px` : '100%',
+      height: size ? `${size}px` : '100%',
+      fontSize: '20px',
       border: 'none',
       borderRadius: '5px',
       backgroundColor: '#007bff',

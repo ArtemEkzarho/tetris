@@ -23,5 +23,13 @@ body {
 
 .tetro-cell {
   padding: 10%;
-  background: #4bacfa;
+  background: currentColor;
+}
+
+.tetro-cell .tetro-glare {
+  background: white;
+}
+
+.tetro-cell .tetro-glare .dot {
+  background: currentColor;
 }

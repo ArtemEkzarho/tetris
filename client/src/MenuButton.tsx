@@ -5,7 +5,6 @@ export const MenuButton = ({
   onClick,
 }: {
   children: ReactNode
-
   onClick?: () => void
 }) => (
   <button

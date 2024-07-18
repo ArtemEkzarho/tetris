@@ -1,7 +1,9 @@
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { useAtom } from 'jotai'
 import { showStartGamePopoverAtom } from './atoms'
 import { MenuButton } from './MenuButton'
+import { ArrowBack, ArrowDownward, ArrowForward } from '@mui/icons-material'
+import { ControlButton } from './ControlButton'
 
 type Props = {
   resetBoard: ({
@@ -14,24 +16,43 @@ type Props = {
 }
 
 export const StartGamePopover = ({ resetBoard }: Props) => {
-  const [showPopover, setShowPopover] = useAtom(showStartGamePopoverAtom)
+  const [showStartGamePopover, setShowStartGamePopover] = useAtom(showStartGamePopoverAtom)
 
-  return showPopover ? (
+  return showStartGamePopover ? (
     <Stack
       height="100%"
       width="100%"
       justifyContent="center"
       alignItems="center"
       sx={{ position: 'absolute' }}
+      spacing={2}
     >
       <MenuButton
         onClick={() => {
           resetBoard({ startGame: true })
-          setShowPopover(false)
+          setShowStartGamePopover(false)
         }}
       >
         Start Game
       </MenuButton>
+      <Typography>Controls </Typography>
+      <Stack direction="row" alignItems="center" spacing={1} height="36px">
+        <Typography>Move </Typography>
+        <ControlButton>
+          <ArrowBack />
+        </ControlButton>
+        <ControlButton>
+          <ArrowForward />
+        </ControlButton>
+        <ControlButton>
+          <ArrowDownward />
+        </ControlButton>
+      </Stack>
+      <Stack direction="row" alignItems="center" spacing={1} height="36px">
+        <Typography>Rotate </Typography>
+        <ControlButton size={36}>Z</ControlButton>
+        <ControlButton size={36}>X</ControlButton>
+      </Stack>
     </Stack>
   ) : null
 }

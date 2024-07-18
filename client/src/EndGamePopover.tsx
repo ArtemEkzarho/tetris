@@ -1,6 +1,12 @@
 import { Stack, Typography } from '@mui/material'
-import { useAtom, useAtomValue } from 'jotai'
-import { scoreAtom, showEndGamePopoverAtom } from './atoms'
+import { useAtom, useSetAtom } from 'jotai'
+import {
+  levelAtom,
+  linesClearedAtom,
+  scoreAtom,
+  showEndGamePopoverAtom,
+  tetrisesCountAtom,
+} from './atoms'
 import { MenuButton } from './MenuButton'
 
 type Props = {
@@ -15,7 +21,10 @@ type Props = {
 
 export const EndGamePopover = ({ resetBoard }: Props) => {
   const [showEndGamePopover, setShowEndGamePopover] = useAtom(showEndGamePopoverAtom)
-  const score = useAtomValue(scoreAtom)
+  const setLinesCleared = useSetAtom(linesClearedAtom)
+  const setTetrisesCount = useSetAtom(tetrisesCountAtom)
+  const setLevel = useSetAtom(levelAtom)
+  const [score, setScore] = useAtom(scoreAtom)
 
   return showEndGamePopover ? (
     <Stack
@@ -32,6 +41,10 @@ export const EndGamePopover = ({ resetBoard }: Props) => {
         onClick={() => {
           resetBoard({ startGame: true })
           setShowEndGamePopover(false)
+          setLinesCleared(0)
+          setTetrisesCount(0)
+          setLevel(0)
+          setScore(0)
         }}
       >
         Play Again
