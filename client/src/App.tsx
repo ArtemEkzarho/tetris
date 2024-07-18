@@ -5,12 +5,14 @@ import { useTetris } from './useTetris'
 import { TetroCell } from './TetroCell'
 import { useMovements } from './useMovements'
 import { useEffect } from 'react'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import {
   levelAtom,
   linesClearedAtom,
   nextTetrominoAtom,
   scoreAtom,
+  showEndGamePopoverAtom,
+  showStartGamePopoverAtom,
   tetrisesCountAtom,
 } from './atoms'
 import { ControlButton } from './ControlButton'
@@ -24,15 +26,18 @@ import {
 } from '@mui/icons-material'
 import { StartGamePopover } from './StartGamePopover'
 import { EndGamePopover } from './EndGamePopover'
+import { MenuButton } from './MenuButton'
 
 export const App = () => {
   const { board, resetBoard } = useTetris()
   const { moveTo, rotate } = useMovements()
-  const linesCleared = useAtomValue(linesClearedAtom)
-  const score = useAtomValue(scoreAtom)
-  const level = useAtomValue(levelAtom)
-  const tetrisesCount = useAtomValue(tetrisesCountAtom)
+  const [linesCleared, setLinesCleared] = useAtom(linesClearedAtom)
+  const [score, setScore] = useAtom(scoreAtom)
+  const [level, setLevel] = useAtom(levelAtom)
+  const [tetrisesCount, setTetrisesCount] = useAtom(tetrisesCountAtom)
   const nextTetromino = useAtomValue(nextTetrominoAtom)
+  const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
+  const setShowStartGamePopover = useSetAtom(showStartGamePopoverAtom)
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -67,11 +72,13 @@ export const App = () => {
       <Stack className="main-container" height="100vh" width="50vh">
         <Stack height="10%">
           <Stack alignItems="center" justifyContent="center" className="azure-board" height="100%">
-            <Typography>SCORE</Typography>
-            <Typography>{score}</Typography>
             <Stack direction="row" spacing={1}>
-              <Typography>{tetrisesCount} </Typography>
+              <Typography>SCORE</Typography>
+              <Typography>{score}</Typography>
+            </Stack>
+            <Stack direction="row" spacing={1}>
               <Typography>Tetrises</Typography>
+              <Typography>{tetrisesCount} </Typography>
             </Stack>
           </Stack>
         </Stack>
@@ -113,15 +120,39 @@ export const App = () => {
             </Stack>
             <Typography>LINES</Typography>
             <Typography>{linesCleared}</Typography>
-            <Stack pb={1}>
-              <Typography>LV</Typography>
-              <Typography>{level}</Typography>
-            </Stack>
+            <Typography>LV</Typography>
+            <Typography>{level}</Typography>
+            <MenuButton
+              onClick={() => {
+                resetBoard({ startGame: true })
+                setShowEndGamePopover(false)
+                setShowStartGamePopover(false)
+                setLinesCleared(0)
+                setTetrisesCount(0)
+                setLevel(0)
+                setScore(0)
+              }}
+            >
+              Reset Game
+            </MenuButton>
+            <MenuButton
+              onClick={() => {
+                resetBoard({ endGame: true })
+                setShowEndGamePopover(false)
+                setShowStartGamePopover(true)
+                setLinesCleared(0)
+                setTetrisesCount(0)
+                setLevel(0)
+                setScore(0)
+              }}
+            >
+              End Game
+            </MenuButton>
           </Stack>
         </Stack>
         <Stack direction="row" height="20%">
-          <Stack direction="row" height="100%" width="100%" py={2} spacing={4}>
-            <Stack width="50%" px={2} spacing={2}>
+          <Stack direction="row" height="100%" width="100%" p="5%" spacing="3%">
+            <Stack width="50%" spacing="3%">
               <Stack direction="row" justifyContent="center" flex={1} px="30%">
                 <ControlButton onClick={() => moveTo({ y: -1 })}>
                   <ArrowUpward />
@@ -146,9 +177,7 @@ export const App = () => {
               justifyContent="space-around"
               alignItems="center"
               width="50%"
-              spacing={4}
-              px={2}
-              py={4}
+              spacing="10%"
             >
               <ControlButton onClick={() => rotate('left')}>
                 <RotateRight />
