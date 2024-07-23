@@ -2,9 +2,12 @@ import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import dotenv from 'dotenv'
 import api from './api'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
+
+dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -22,7 +25,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'))
 })
 
-mongoose.connect(process.env.MONGODB_CONNECTION_STR || 'mongodb://localhost:27017/local')
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/local')
 
 const db = mongoose.connection
 

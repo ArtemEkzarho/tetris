@@ -8,14 +8,6 @@ import { useEffect } from 'react'
 import { useAtomValue } from 'jotai'
 import { scoreAtom, tetrisesCountAtom } from './atoms'
 import { ControlButton } from './components/buttons/ControlButton'
-import {
-  ArrowBack,
-  ArrowDownward,
-  ArrowForward,
-  ArrowUpward,
-  RotateLeft,
-  RotateRight,
-} from '@mui/icons-material'
 import { StartGamePopover } from './components/StartGamePopover'
 import { EndGamePopover } from './components/EndGamePopover'
 import { SidePanel } from './components/SidePanel'
