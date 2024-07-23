@@ -6,8 +6,8 @@ import {
   scoreAtom,
   showEndGamePopoverAtom,
   tetrisesCountAtom,
-} from './atoms'
-import { MenuButton } from './MenuButton'
+} from '../atoms'
+import { MenuButton } from './buttons'
 
 type Props = {
   resetBoard: ({

@@ -2,20 +2,12 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import './styles.css'
 import { useTetris } from './useTetris'
-import { TetroCell } from './TetroCell'
+import { TetroCell } from './components/TetroCell'
 import { useMovements } from './useMovements'
 import { useEffect } from 'react'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import {
-  levelAtom,
-  linesClearedAtom,
-  nextTetrominoAtom,
-  scoreAtom,
-  showEndGamePopoverAtom,
-  showStartGamePopoverAtom,
-  tetrisesCountAtom,
-} from './atoms'
-import { ControlButton } from './ControlButton'
+import { useAtomValue } from 'jotai'
+import { scoreAtom, tetrisesCountAtom } from './atoms'
+import { ControlButton } from './components/buttons/ControlButton'
 import {
   ArrowBack,
   ArrowDownward,
@@ -24,20 +16,15 @@ import {
   RotateLeft,
   RotateRight,
 } from '@mui/icons-material'
-import { StartGamePopover } from './StartGamePopover'
-import { EndGamePopover } from './EndGamePopover'
-import { MenuButton } from './MenuButton'
+import { StartGamePopover } from './components/StartGamePopover'
+import { EndGamePopover } from './components/EndGamePopover'
+import { SidePanel } from './components/SidePanel'
 
 export const App = () => {
   const { board, resetBoard } = useTetris()
   const { moveTo, rotate } = useMovements()
-  const [linesCleared, setLinesCleared] = useAtom(linesClearedAtom)
-  const [score, setScore] = useAtom(scoreAtom)
-  const [level, setLevel] = useAtom(levelAtom)
-  const [tetrisesCount, setTetrisesCount] = useAtom(tetrisesCountAtom)
-  const nextTetromino = useAtomValue(nextTetrominoAtom)
-  const setShowEndGamePopover = useSetAtom(showEndGamePopoverAtom)
-  const setShowStartGamePopover = useSetAtom(showStartGamePopoverAtom)
+  const score = useAtomValue(scoreAtom)
+  const tetrisesCount = useAtomValue(tetrisesCountAtom)
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -98,78 +85,20 @@ export const App = () => {
             <EndGamePopover resetBoard={resetBoard} />
           </Stack>
           <Divider orientation="vertical" />
-          <Stack width="25%" height="100%" className="azure-board" alignItems="center" spacing={1}>
-            <Typography>NEXT</Typography>
-            <Stack alignItems="center" justifyContent="center" width="100%" height="15%">
-              {nextTetromino &&
-                nextTetromino.tetromino[nextTetromino.rotation].map((row, y) => (
-                  <Stack
-                    flex={1}
-                    direction="row"
-                    key={y}
-                    justifyContent="space-between"
-                    width="93%"
-                  >
-                    {row.map((cell, x) => (
-                      <Box key={x} flex={1} className="tetro-cell-wrap">
-                        {cell !== 'EMPTY_CELL' ? <TetroCell cell={cell} /> : null}
-                      </Box>
-                    ))}
-                  </Stack>
-                ))}
-            </Stack>
-            <Typography>LINES</Typography>
-            <Typography>{linesCleared}</Typography>
-            <Typography>LV</Typography>
-            <Typography>{level}</Typography>
-            <MenuButton
-              onClick={() => {
-                resetBoard({ startGame: true })
-                setShowEndGamePopover(false)
-                setShowStartGamePopover(false)
-                setLinesCleared(0)
-                setTetrisesCount(0)
-                setLevel(0)
-                setScore(0)
-              }}
-            >
-              Reset Game
-            </MenuButton>
-            <MenuButton
-              onClick={() => {
-                resetBoard({ endGame: true })
-                setShowEndGamePopover(false)
-                setShowStartGamePopover(true)
-                setLinesCleared(0)
-                setTetrisesCount(0)
-                setLevel(0)
-                setScore(0)
-              }}
-            >
-              End Game
-            </MenuButton>
-          </Stack>
+          <SidePanel resetBoard={resetBoard} />
         </Stack>
         <Stack direction="row" height="20%">
           <Stack direction="row" height="100%" width="100%" p="5%" spacing="3%">
             <Stack width="50%" spacing="3%">
               <Stack direction="row" justifyContent="center" flex={1} px="30%">
-                <ControlButton onClick={() => moveTo({ y: -1 })}>
-                  <ArrowUpward />
-                </ControlButton>
+                <ControlButton onClick={() => moveTo({ y: -1 })}>↑</ControlButton>
               </Stack>
               <Stack direction="row" justifyContent="space-between" spacing="25%" flex={1}>
-                <ControlButton onClick={() => moveTo({ x: -1 })}>
-                  <ArrowBack />
-                </ControlButton>
-                <ControlButton onClick={() => moveTo({ x: 1 })}>
-                  <ArrowForward />
-                </ControlButton>
+                <ControlButton onClick={() => moveTo({ x: -1 })}>←</ControlButton>
+                <ControlButton onClick={() => moveTo({ x: 1 })}>→</ControlButton>
               </Stack>
               <Stack direction="row" justifyContent="center" flex={1} px="30%">
-                <ControlButton onClick={() => moveTo({ y: 1 })}>
-                  <ArrowDownward />
-                </ControlButton>
+                <ControlButton onClick={() => moveTo({ y: 1 })}>↓</ControlButton>
               </Stack>
             </Stack>
             <Stack
@@ -179,12 +108,8 @@ export const App = () => {
               width="50%"
               spacing="10%"
             >
-              <ControlButton onClick={() => rotate('left')}>
-                <RotateRight />
-              </ControlButton>
-              <ControlButton onClick={() => rotate('right')}>
-                <RotateLeft />
-              </ControlButton>
+              <ControlButton onClick={() => rotate('left')}>↻</ControlButton>
+              <ControlButton onClick={() => rotate('right')}>↺</ControlButton>
             </Stack>
           </Stack>
         </Stack>
