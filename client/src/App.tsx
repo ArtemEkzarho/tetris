@@ -11,6 +11,17 @@ import { ControlButton } from './components/buttons/ControlButton'
 import { StartGamePopover } from './components/StartGamePopover'
 import { EndGamePopover } from './components/EndGamePopover'
 import { SidePanel } from './components/SidePanel'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 60000,
+      retry: false,
+    },
+  },
+})
 
 export const App = () => {
   const { board, resetBoard } = useTetris()
@@ -46,7 +57,7 @@ export const App = () => {
   }, [moveTo, rotate])
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <CssBaseline />
       <Stack className="main-container" height="100vh" width="50vh">
         <Stack height="10%">
@@ -106,6 +117,6 @@ export const App = () => {
           </Stack>
         </Stack>
       </Stack>
-    </>
+    </QueryClientProvider>
   )
 }
