@@ -4,10 +4,9 @@ import './styles.css'
 import { useTetris } from './useTetris'
 import { TetroCell } from './components/TetroCell'
 import { useMovements } from './useMovements'
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAtomValue } from 'jotai'
 import { scoreAtom, tetrisesCountAtom } from './atoms'
-import { ControlButton } from './components/buttons/ControlButton'
 import { StartGamePopover } from './components/StartGamePopover'
 import { EndGamePopover } from './components/EndGamePopover'
 import { SidePanel } from './components/SidePanel'
@@ -29,6 +28,26 @@ export const App = () => {
   const score = useAtomValue(scoreAtom)
   const tetrisesCount = useAtomValue(tetrisesCountAtom)
 
+  const stackRef = useRef<HTMLDivElement>(null)
+  const [height, setHeight] = useState(0)
+
+  useEffect(() => {
+    if (stackRef.current) {
+      setHeight(stackRef.current.clientHeight)
+    }
+
+    const handleResize = () => {
+      if (stackRef.current) {
+        setHeight(stackRef.current.clientHeight)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       switch (event.code) {
@@ -36,6 +55,9 @@ export const App = () => {
           rotate('left')
           break
         case 'KeyX':
+          rotate('right')
+          break
+        case 'ArrowUp':
           rotate('right')
           break
         case 'ArrowDown':
@@ -59,7 +81,12 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <CssBaseline />
-      <Stack className="main-container" height="100vh" width="50vh">
+      <Stack
+        className="main-container"
+        height="100%"
+        ref={stackRef}
+        style={{ width: `${height / 2}px` }}
+      >
         <Stack height="10%">
           <Stack alignItems="center" justifyContent="center" className="azure-board" height="100%">
             <Stack direction="row" spacing={1}>
@@ -94,14 +121,22 @@ export const App = () => {
           <Stack direction="row" height="100%" width="100%" p="5%" spacing="3%">
             <Stack width="50%" spacing="3%">
               <Stack direction="row" justifyContent="center" flex={1} px="30%">
-                <ControlButton onClick={() => moveTo({ y: -1 })}>↑</ControlButton>
+                <button className="control-btn" onClick={() => rotate('right')}>
+                  ↑
+                </button>
               </Stack>
               <Stack direction="row" justifyContent="space-between" spacing="25%" flex={1}>
-                <ControlButton onClick={() => moveTo({ x: -1 })}>←</ControlButton>
-                <ControlButton onClick={() => moveTo({ x: 1 })}>→</ControlButton>
+                <button className="control-btn" onClick={() => moveTo({ x: -1 })}>
+                  ←
+                </button>
+                <button className="control-btn" onClick={() => moveTo({ x: 1 })}>
+                  →
+                </button>
               </Stack>
               <Stack direction="row" justifyContent="center" flex={1} px="30%">
-                <ControlButton onClick={() => moveTo({ y: 1 })}>↓</ControlButton>
+                <button className="control-btn" onClick={() => moveTo({ y: 1 })}>
+                  ↓
+                </button>
               </Stack>
             </Stack>
             <Stack
@@ -109,10 +144,15 @@ export const App = () => {
               justifyContent="space-around"
               alignItems="center"
               width="50%"
-              spacing="10%"
+              spacing="15%"
+              p="3%"
             >
-              <ControlButton onClick={() => rotate('left')}>↻</ControlButton>
-              <ControlButton onClick={() => rotate('right')}>↺</ControlButton>
+              <button className="control-btn" onClick={() => rotate('left')}>
+                ↻
+              </button>
+              <button className="control-btn" onClick={() => rotate('right')}>
+                ↺
+              </button>
             </Stack>
           </Stack>
         </Stack>

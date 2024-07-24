@@ -10,7 +10,6 @@ import {
   showStartGamePopoverAtom,
   tetrisesCountAtom,
 } from '../atoms'
-import { MenuButton } from './buttons/MenuButton'
 
 type Props = {
   resetBoard: ({ startGame, endGame }: { startGame?: boolean; endGame?: boolean }) => void
@@ -44,7 +43,8 @@ export const SidePanel = ({ resetBoard }: Props) => {
       <Typography>LV</Typography>
       <Typography>{level}</Typography>
       <Stack spacing={1} px={1}>
-        <MenuButton
+        <button
+          className="menu-btn"
           onClick={() => {
             resetBoard({ startGame: true })
             setShowEndGamePopover(false)
@@ -56,8 +56,9 @@ export const SidePanel = ({ resetBoard }: Props) => {
           }}
         >
           Reset Game
-        </MenuButton>
-        <MenuButton
+        </button>
+        <button
+          className="menu-btn"
           onClick={() => {
             resetBoard({ endGame: true })
             setShowEndGamePopover(false)
@@ -69,14 +70,15 @@ export const SidePanel = ({ resetBoard }: Props) => {
           }}
         >
           End Game
-        </MenuButton>
-        <MenuButton
+        </button>
+        <button
+          className="menu-btn"
           onClick={() => {
             console.log('go to board')
           }}
         >
           Leader board
-        </MenuButton>
+        </button>
       </Stack>
     </Stack>
   )
