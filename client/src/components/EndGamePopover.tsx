@@ -7,7 +7,6 @@ import {
   showEndGamePopoverAtom,
   tetrisesCountAtom,
 } from '../atoms'
-import { MenuButton } from './buttons'
 
 type Props = {
   resetBoard: ({
@@ -37,7 +36,8 @@ export const EndGamePopover = ({ resetBoard }: Props) => {
     >
       <Typography variant="h4">Game Over!</Typography>
       <Typography variant="h5">Your score: {score}</Typography>
-      <MenuButton
+      <button
+        className="menu-btn"
         onClick={() => {
           resetBoard({ startGame: true })
           setShowEndGamePopover(false)
@@ -48,7 +48,7 @@ export const EndGamePopover = ({ resetBoard }: Props) => {
         }}
       >
         Play Again
-      </MenuButton>
+      </button>
     </Stack>
   ) : null
 }

@@ -2,10 +2,12 @@ p.MuiTypography-root {
   font-family: 'Pixel', 'Arial', sans-serif;
 }
 
-body {
+html,
+body,
+#root {
   background: black !important;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 .main-container {
@@ -32,4 +34,21 @@ body {
 
 .tetro-cell .tetro-glare .dot {
   background: currentColor;
+}
+
+.menu-btn {
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  color: black;
+  padding: 5px;
+}
+
+.control-btn {
+  cursor: pointer;
+  user-select: none;
+  height: 100%;
+  width: 100%;
+  border: none;
+  color: black;
 }
