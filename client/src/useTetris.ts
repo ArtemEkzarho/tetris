@@ -23,7 +23,7 @@ import {
 } from './helpers'
 import { BOARD_HEIGHT, BOARD_WIDTH, LEVELS, TETRO_LETTERS } from './const'
 import { FallingTetrominoCell } from './types'
-import { useMovements } from './useMovements'
+import { useMovements } from './hooks'
 
 export const useTetris = () => {
   const [board, setBoard] = useAtom(boardAtom)

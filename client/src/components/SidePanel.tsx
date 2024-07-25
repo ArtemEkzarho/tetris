@@ -7,6 +7,7 @@ import {
   nextTetrominoAtom,
   scoreAtom,
   showEndGamePopoverAtom,
+  showLeaderBoardAtom,
   showStartGamePopoverAtom,
   tetrisesCountAtom,
 } from '../atoms'
@@ -22,6 +23,7 @@ export const SidePanel = ({ resetBoard }: Props) => {
   const setShowStartGamePopover = useSetAtom(showStartGamePopoverAtom)
   const setTetrisesCount = useSetAtom(tetrisesCountAtom)
   const setScore = useSetAtom(scoreAtom)
+  const setShowLeaderBoard = useSetAtom(showLeaderBoardAtom)
 
   return (
     <Stack width="25%" height="100%" className="azure-board" alignItems="center" spacing={1}>
@@ -71,12 +73,7 @@ export const SidePanel = ({ resetBoard }: Props) => {
         >
           End Game
         </button>
-        <button
-          className="menu-btn"
-          onClick={() => {
-            console.log('go to board')
-          }}
-        >
+        <button className="menu-btn" onClick={() => setShowLeaderBoard(true)}>
           Leader board
         </button>
       </Stack>

@@ -1,0 +1,6 @@
+export { Controls } from './Controls'
+export { EndGamePopover } from './EndGamePopover'
+export { StartGamePopover } from './StartGamePopover'
+export { SidePanel } from './SidePanel'
+export { TetroCell } from './TetroCell'
+export { LeaderBoard } from './LeaderBoard'
