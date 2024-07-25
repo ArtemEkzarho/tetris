@@ -26,9 +26,9 @@ export const SidePanel = ({ resetBoard }: Props) => {
   const setShowLeaderBoard = useSetAtom(showLeaderBoardAtom)
 
   return (
-    <Stack width="25%" height="100%" className="azure-board" alignItems="center" spacing={1}>
+    <Stack width="20%" height="100%" className="azure-board" alignItems="center" spacing={1}>
       <Typography>NEXT</Typography>
-      <Stack alignItems="center" justifyContent="center" width="100%" height="15%">
+      <Stack alignItems="center" justifyContent="center" width="100%" height="11%">
         {nextTetromino &&
           nextTetromino.tetromino[nextTetromino.rotation].map((row, y) => (
             <Stack flex={1} direction="row" key={y} justifyContent="space-between" width="93%">

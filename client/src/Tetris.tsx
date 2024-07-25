@@ -35,7 +35,7 @@ export const Tetris = () => {
       </Stack>
       <Divider />
       <Stack direction="row" height="80%">
-        <Stack width="75%" className="azure-board" style={{ position: 'relative' }}>
+        <Stack width="80%" className="azure-board" style={{ position: 'relative' }}>
           {board.map((row, y) => (
             <Stack flex={1} direction="row" key={y} justifyContent="space-between">
               {row.map((cell, x) => (

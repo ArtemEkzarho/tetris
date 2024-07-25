@@ -6,19 +6,17 @@ import { useQuery } from '@tanstack/react-query'
 export const LeaderBoard = () => {
   const [showLeaderBoard, setShowLeaderBoard] = useAtom(showLeaderBoardAtom)
 
-  const { isPending, error, data, refetch } = useQuery({
+  const { isPending, data, refetch } = useQuery({
     queryKey: ['leaders'],
     queryFn: () => fetch('/api/leaders').then((res) => res.json()),
     enabled: showLeaderBoard,
   })
 
-  console.log({ isPending, error, data })
-
   return showLeaderBoard ? (
     <Stack
       height="85%"
       width="100%"
-      sx={{ position: 'absolute', background: 'rgb(0 0 0 / 73%)', border: '1px solid orange' }}
+      sx={{ position: 'absolute', background: 'rgb(0 0 0 / 73%)', border: '2px solid orange' }}
       spacing={2}
       p={2}
     >
@@ -28,7 +26,9 @@ export const LeaderBoard = () => {
           {data.map((leader: { name: string; score: number }) => {
             return (
               <Stack direction="row" spacing={1}>
-                <Typography>{leader.name}</Typography>
+                <Typography flex={1} noWrap textOverflow="ellipsis">
+                  {leader.name}
+                </Typography>
                 <Typography>{leader.score}</Typography>
               </Stack>
             )
