@@ -31,12 +31,12 @@ export const EndGamePopover = ({ resetBoard }: Props) => {
   const [scoreName, setScoreName] = useState('')
 
   const { mutate } = useMutation({
-    mutationFn: () => {
-      return fetch('/api/leaders', {
+    mutationFn: () =>
+      fetch('/api/leaders', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: scoreName, score: score }),
-      }).then((res) => res.json())
-    },
+      }).then((res) => res.json()),
   })
 
   return showEndGamePopover ? (
