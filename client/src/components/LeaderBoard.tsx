@@ -1,5 +1,5 @@
 import { Stack, Typography } from '@mui/material'
-import { showLeaderBoardAtom } from '../atoms'
+import { showLeaderBoardAtom } from '../common/atoms'
 import { useAtom } from 'jotai'
 import { useQuery } from '@tanstack/react-query'
 
@@ -14,7 +14,7 @@ export const LeaderBoard = () => {
 
   return showLeaderBoard ? (
     <Stack
-      height="85%"
+      height="100%"
       width="100%"
       sx={{ position: 'absolute', background: 'rgb(0 0 0 / 73%)', border: '2px solid orange' }}
       spacing={2}

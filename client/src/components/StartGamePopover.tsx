@@ -1,6 +1,6 @@
 import { Stack, Typography } from '@mui/material'
 import { useAtom } from 'jotai'
-import { showStartGamePopoverAtom } from '../atoms'
+import { showStartGamePopoverAtom } from '../common/atoms'
 
 type Props = {
   resetBoard: ({

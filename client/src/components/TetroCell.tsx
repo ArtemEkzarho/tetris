@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material'
-import { FallingTetrominoCell, FixedTetromino } from '../types'
+import { FallingTetrominoCell, FixedTetromino } from '../common/types'
 
 type Props = {
   cell: FallingTetrominoCell | FixedTetromino

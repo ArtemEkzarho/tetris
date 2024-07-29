@@ -11,7 +11,7 @@ import {
   scoreAtom,
   showEndGamePopoverAtom,
   tetrisesCountAtom,
-} from './atoms'
+} from '../common/atoms'
 import {
   canPlaceTetromino,
   checkCollision,
@@ -20,13 +20,13 @@ import {
   createEmptyBoard,
   getDropTime,
   getNewTetromino,
-} from './helpers'
-import { BOARD_HEIGHT, BOARD_WIDTH, LEVELS, TETRO_LETTERS } from './const'
-import { FallingTetrominoCell } from './types'
-import { useMovements } from './hooks'
+} from '../common/helpers'
+import { BOARD_HEIGHT, BOARD_WIDTH, LEVELS, TETRO_LETTERS } from '../common/const'
+import { FallingTetrominoCell } from '../common/types'
+import { useMovements } from '.'
 
 export const useTetris = () => {
-  const [board, setBoard] = useAtom(boardAtom)
+  const setBoard = useSetAtom(boardAtom)
   const { moveTo } = useMovements()
   const [currentTetromino, setCurrentTetromino] = useAtom(currentTetrominoAtom)
   const [nextTetromino, setNextTetromino] = useAtom(nextTetrominoAtom)
@@ -166,5 +166,5 @@ export const useTetris = () => {
     setShowEndGamePopover,
   ])
 
-  return { board, resetBoard }
+  return { resetBoard }
 }
