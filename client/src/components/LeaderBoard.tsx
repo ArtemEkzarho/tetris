@@ -25,7 +25,7 @@ export const LeaderBoard = () => {
         <Stack flex={1}>
           {data.map((leader: { name: string; score: number }) => {
             return (
-              <Stack direction="row" spacing={1}>
+              <Stack key={leader.name} direction="row" spacing={1}>
                 <Typography flex={1} noWrap textOverflow="ellipsis">
                   {leader.name}
                 </Typography>

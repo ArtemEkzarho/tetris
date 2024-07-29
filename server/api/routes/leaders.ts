@@ -17,14 +17,18 @@ export const leaders = (router: Router): void => {
     try {
       // Check if a leader with the same name already exists
       const existingLeader = await Leader.findOne({ name: req.body.name })
+
       if (existingLeader) {
-        return res.status(400).json({ error: 'Leader with this name already exists' })
+        // Overwrite the existing leader
+        existingLeader.set(req.body)
+        const updatedLeader = await existingLeader.save()
+        return res.status(200).json(updatedLeader)
       }
 
       // Create a new leader
       const leader = new Leader(req.body)
       const savedLeader = await leader.save()
-      res.status(200).json(savedLeader)
+      res.status(201).json(savedLeader)
     } catch (err) {
       res.status(400).json(err)
     }
