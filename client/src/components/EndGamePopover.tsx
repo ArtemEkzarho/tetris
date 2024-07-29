@@ -7,7 +7,7 @@ import {
   showEndGamePopoverAtom,
   showLeaderBoardAtom,
   tetrisesCountAtom,
-} from '../atoms'
+} from '../common/atoms'
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 

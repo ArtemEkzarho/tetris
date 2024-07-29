@@ -1,5 +1,5 @@
 import { useSetAtom } from 'jotai'
-import { currentTetrominoAtom, prevTetrominoAtom } from '../atoms'
+import { currentTetrominoAtom, prevTetrominoAtom } from '../common/atoms'
 import { useCallback } from 'react'
 
 const getDirection = (x?: number, y?: number) => {
