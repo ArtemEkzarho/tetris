@@ -30,6 +30,9 @@ body,
 .tetro-cell {
   padding: 10%;
   background: currentColor;
+  border-radius: 2px;
+  height: 100%;
+  width: 100%;
 }
 
 .tetro-cell .tetro-glare {

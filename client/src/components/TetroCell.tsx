@@ -24,13 +24,7 @@ const colors = {
 
 export const TetroCell = ({ cell }: Props) => {
   return (
-    <Box
-      className="tetro-cell"
-      color={colors[cell]}
-      height="100%"
-      width="100%"
-      style={{ borderRadius: '2px' }}
-    >
+    <Box className="tetro-cell" color={colors[cell]}>
       <Stack width="25%" height="25%" justifyContent="end" alignItems="end" className="tetro-glare">
         <Box width="50%" height="50%" className="dot" />
       </Stack>
