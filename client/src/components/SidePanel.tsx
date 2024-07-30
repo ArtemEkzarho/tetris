@@ -1,6 +1,6 @@
 import { IconButton, Stack, Tooltip, Typography } from '@mui/material'
 import { useAtom, useSetAtom } from 'jotai'
-import { GitHub } from '@mui/icons-material'
+import { GitHub, ReplayCircleFilled, Cancel, Leaderboard } from '@mui/icons-material'
 
 import {
   levelAtom,
@@ -26,42 +26,46 @@ export const SidePanel = ({ resetBoard }: Props) => {
 
   return (
     <Stack width="15%" height="100%" className="azure-board" alignItems="center" spacing={1}>
-      <Typography>LINES</Typography>
-      <Typography>{linesCleared}</Typography>
       <Typography>LV</Typography>
       <Typography>{level}</Typography>
+      <Typography variant="h6">ROWS</Typography>
+      <Typography>{linesCleared}</Typography>
       <Stack spacing={1} px={1}>
-        <button
-          className="menu-btn"
-          onClick={() => {
-            resetBoard({ startGame: true })
-            setShowEndGamePopover(false)
-            setShowStartGamePopover(false)
-            setLinesCleared(0)
-            setTetrisesCount(0)
-            setLevel(0)
-            setScore(0)
-          }}
-        >
-          Reset Game
-        </button>
-        <button
-          className="menu-btn"
-          onClick={() => {
-            resetBoard({ endGame: true })
-            setShowEndGamePopover(false)
-            setShowStartGamePopover(true)
-            setLinesCleared(0)
-            setTetrisesCount(0)
-            setLevel(0)
-            setScore(0)
-          }}
-        >
-          End Game
-        </button>
-        <button className="menu-btn" onClick={() => setShowLeaderBoard(true)}>
-          Leader board
-        </button>
+        <Tooltip title="RESET GAME">
+          <IconButton
+            onClick={() => {
+              resetBoard({ startGame: true })
+              setShowEndGamePopover(false)
+              setShowStartGamePopover(false)
+              setLinesCleared(0)
+              setTetrisesCount(0)
+              setLevel(0)
+              setScore(0)
+            }}
+          >
+            <ReplayCircleFilled color="info" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="END GAME">
+          <IconButton
+            onClick={() => {
+              resetBoard({ endGame: true })
+              setShowEndGamePopover(false)
+              setShowStartGamePopover(true)
+              setLinesCleared(0)
+              setTetrisesCount(0)
+              setLevel(0)
+              setScore(0)
+            }}
+          >
+            <Cancel color="error" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="LEADER BOARD">
+          <IconButton onClick={() => setShowLeaderBoard(true)}>
+            <Leaderboard color="warning" />
+          </IconButton>
+        </Tooltip>
       </Stack>
       <Tooltip title="GitHub repository">
         <IconButton

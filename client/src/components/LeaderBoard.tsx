@@ -28,17 +28,17 @@ export const LeaderBoard = () => {
       spacing={2}
       p={2}
     >
-      <Typography align="center">Leader board</Typography>
+      <Typography align="center">LEADER BOARD</Typography>
       {!isPending && data.length && (
         <Stack flex={1} overflow="hidden">
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
-                  <th align="left">Name</th>
-                  <th align="center">Tetrises</th>
-                  <th align="center">Lines</th>
-                  <th align="center">Score</th>
+                  <th align="left">NAME</th>
+                  <th align="center">TETRISES</th>
+                  <th align="center">LINES</th>
+                  <th align="center">SCORE</th>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -62,10 +62,10 @@ export const LeaderBoard = () => {
 
       <Stack direction="row" spacing={2}>
         <button className="menu-btn" onClick={() => setShowLeaderBoard(false)}>
-          Back to game
+          <Typography>BACK TO GAME</Typography>
         </button>
         <button className="menu-btn" onClick={() => refetch()}>
-          Refresh
+          <Typography>REFRESH</Typography>
         </button>
       </Stack>
     </Stack>

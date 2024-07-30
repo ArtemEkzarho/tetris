@@ -10,10 +10,16 @@ export const TopPanel = () => {
 
   return (
     <Stack height="15%" direction="row">
-      <Stack className="azure-board" height="100%" flex={1} alignItems="center">
-        <Typography>SCORE</Typography>
+      <Stack
+        className="azure-board"
+        height="100%"
+        flex={1}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Typography variant="h6">SCORE</Typography>
         <Typography>{score}</Typography>
-        <Typography>Tetrises</Typography>
+        <Typography variant="h6">TETRISES</Typography>
         <Typography>{tetrisesCount} </Typography>
       </Stack>
       <Stack className="azure-board" height="100%" flex={1} alignItems="center">

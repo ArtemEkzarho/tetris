@@ -60,10 +60,10 @@ export const EndGamePopover = ({ resetBoard }: Props) => {
       p={1}
     >
       <Typography variant="h4" align="center">
-        Game Over!
+        GAME OVER!
       </Typography>
       <Typography variant="h5" align="center">
-        Your score: {score}
+        YOUR SCORE: {score}
       </Typography>
       <Stack spacing={1}>
         <input
@@ -85,13 +85,13 @@ export const EndGamePopover = ({ resetBoard }: Props) => {
             setScore(0)
           }}
         >
-          Play Again
+          <Typography>PLAY AGAIN</Typography>
         </button>
         <button className="menu-btn" onClick={() => mutate()}>
-          Save score
+          <Typography>SAVE SCORE</Typography>
         </button>
         <button className="menu-btn" onClick={() => setShowLeaderBoard(true)}>
-          Leader board
+          <Typography>LEADER BOARD</Typography>
         </button>
       </Stack>
     </Stack>
