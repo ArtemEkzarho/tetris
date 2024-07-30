@@ -67,7 +67,7 @@ export const SidePanel = ({ resetBoard }: Props) => {
         <IconButton
           size="small"
           target="_blank"
-          href="https://github.com/ArtemEkzarho/calculator-expressts-reactts-vite"
+          href="https://github.com/ArtemEkzarho/tetris-reactts"
         >
           <GitHub color="info" />
         </IconButton>
