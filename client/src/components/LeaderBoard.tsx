@@ -1,4 +1,12 @@
-import { Stack, Typography } from '@mui/material'
+import {
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material'
 import { showLeaderBoardAtom } from '../common/atoms'
 import { useAtom } from 'jotai'
 import { useQuery } from '@tanstack/react-query'
@@ -22,17 +30,33 @@ export const LeaderBoard = () => {
     >
       <Typography align="center">Leader board</Typography>
       {!isPending && data.length && (
-        <Stack flex={1}>
-          {data.map((leader: { name: string; score: number }) => {
-            return (
-              <Stack key={leader.name} direction="row" spacing={1}>
-                <Typography flex={1} noWrap textOverflow="ellipsis">
-                  {leader.name}
-                </Typography>
-                <Typography>{leader.score}</Typography>
-              </Stack>
-            )
-          })}
+        <Stack flex={1} overflow="hidden">
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <th align="left">Name</th>
+                  <th align="center">Tetrises</th>
+                  <th align="center">Lines</th>
+                  <th align="center">Score</th>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map(
+                  (leader: { name: string; score: number; lines: number; tetrises: number }) => {
+                    return (
+                      <TableRow key={leader.name}>
+                        <td>{leader.name}</td>
+                        <td align="center">{leader.tetrises}</td>
+                        <td align="center">{leader.lines}</td>
+                        <td align="center">{leader.score}</td>
+                      </TableRow>
+                    )
+                  }
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Stack>
       )}
 

@@ -3,6 +3,8 @@ import mongoose, { Document, Schema } from 'mongoose'
 interface ILeader extends Document {
   name: string
   score: number
+  lines: number
+  tetrises: number
 }
 // Validator to ensure the string is not empty
 const requireStringValidator = {
@@ -23,6 +25,8 @@ const leaderSchema: Schema<ILeader> = new Schema({
     validate: requireStringValidator,
   },
   score: { type: Number, required: true },
+  lines: { type: Number, required: true },
+  tetrises: { type: Number, required: true },
 })
 
 const Leader = mongoose.model<ILeader>('Leader', leaderSchema)

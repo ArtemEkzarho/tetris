@@ -9,7 +9,7 @@ import {
   tetrisesCountAtom,
 } from '../common/atoms'
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 type Props = {
   resetBoard: ({
@@ -24,19 +24,30 @@ type Props = {
 export const EndGamePopover = ({ resetBoard }: Props) => {
   const [showEndGamePopover, setShowEndGamePopover] = useAtom(showEndGamePopoverAtom)
   const setShowLeaderBoard = useSetAtom(showLeaderBoardAtom)
-  const setLinesCleared = useSetAtom(linesClearedAtom)
-  const setTetrisesCount = useSetAtom(tetrisesCountAtom)
+  const [linesCleared, setLinesCleared] = useAtom(linesClearedAtom)
+  const [tetrisesCount, setTetrisesCount] = useAtom(tetrisesCountAtom)
   const setLevel = useSetAtom(levelAtom)
   const [score, setScore] = useAtom(scoreAtom)
   const [scoreName, setScoreName] = useState('')
+  const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
     mutationFn: () =>
       fetch('/api/leaders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: scoreName, score: score }),
+        body: JSON.stringify({
+          name: scoreName,
+          score: score,
+          tetrises: tetrisesCount,
+          lines: linesCleared,
+        }),
       }).then((res) => res.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['leaders'] })
+      setScoreName('')
+      setShowLeaderBoard(true)
+    },
   })
 
   return showEndGamePopover ? (
