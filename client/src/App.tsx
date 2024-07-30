@@ -6,9 +6,11 @@ import { EndGamePopover, LeaderBoard, SidePanel, StartGamePopover } from './comp
 import { useGetHeight, useKeyPress, useMovements } from './hooks'
 import { useTetris } from './hooks/useTetris'
 import { useState } from 'react'
+import { ThemeProvider } from '@emotion/react'
+import { theme } from './theme'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const debounce = (func: (...args: any[]) => void, wait: number) => {
+const debounce = (func: (...args: any[]) => void, wait: number) => {
   let timeout: ReturnType<typeof setTimeout> | null = null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return function executedFunction(...args: any[]) {
@@ -79,7 +81,7 @@ export const App = () => {
   }, 100)
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <Stack
         className="main-container"
@@ -103,6 +105,6 @@ export const App = () => {
         </Stack>
         <LeaderBoard />
       </Stack>
-    </>
+    </ThemeProvider>
   )
 }
