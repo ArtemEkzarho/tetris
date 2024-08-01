@@ -28,17 +28,27 @@ export const LeaderBoard = () => {
       spacing={2}
       p={2}
     >
-      <Typography align="center">LEADER BOARD</Typography>
+      <Typography variant="h1" align="center">
+        LEADER BOARD
+      </Typography>
       {!isPending && data.length && (
         <Stack flex={1} overflow="hidden">
-          <TableContainer>
+          <TableContainer sx={{ height: '100%' }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <th align="left">NAME</th>
-                  <th align="center">TETRISES</th>
-                  <th align="center">LINES</th>
-                  <th align="center">SCORE</th>
+                  <th align="left">
+                    <Typography variant="h1">NAME</Typography>
+                  </th>
+                  <th align="center">
+                    <Typography variant="h1">TETRISES</Typography>
+                  </th>
+                  <th align="center">
+                    <Typography variant="h1">LINES</Typography>
+                  </th>
+                  <th align="center">
+                    <Typography variant="h1">SCORE</Typography>
+                  </th>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -46,10 +56,18 @@ export const LeaderBoard = () => {
                   (leader: { name: string; score: number; lines: number; tetrises: number }) => {
                     return (
                       <TableRow key={leader.name}>
-                        <td>{leader.name}</td>
-                        <td align="center">{leader.tetrises}</td>
-                        <td align="center">{leader.lines}</td>
-                        <td align="center">{leader.score}</td>
+                        <td>
+                          <Typography variant="h1">{leader.name}</Typography>
+                        </td>
+                        <td align="center">
+                          <Typography variant="h1">{leader.tetrises}</Typography>
+                        </td>
+                        <td align="center">
+                          <Typography variant="h1">{leader.lines}</Typography>
+                        </td>
+                        <td align="center">
+                          <Typography variant="h1">{leader.score}</Typography>
+                        </td>
                       </TableRow>
                     )
                   }
@@ -62,10 +80,10 @@ export const LeaderBoard = () => {
 
       <Stack direction="row" spacing={2}>
         <button className="menu-btn" onClick={() => setShowLeaderBoard(false)}>
-          <Typography>BACK TO GAME</Typography>
+          <Typography variant="h1">BACK TO GAME</Typography>
         </button>
         <button className="menu-btn" onClick={() => refetch()}>
-          <Typography>REFRESH</Typography>
+          <Typography variant="h1">REFRESH</Typography>
         </button>
       </Stack>
     </Stack>
