@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material'
 
 export const theme = createTheme({
   typography: {
-    fontFamily: '"Pixelify Sans", sans-serif',
+    fontFamily: '"Space Mono", monospace',
     fontSize: 14,
     h6: {
       fontSize: 12,
