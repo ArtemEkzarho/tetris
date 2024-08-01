@@ -10,6 +10,7 @@ export const theme = createTheme({
     },
     h1: {
       fontSize: 14,
+      lineHeight: 1,
     },
   },
   components: {},
