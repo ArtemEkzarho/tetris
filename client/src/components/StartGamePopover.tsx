@@ -31,28 +31,28 @@ export const StartGamePopover = ({ resetBoard }: Props) => {
           setShowStartGamePopover(false)
         }}
       >
-        <Typography>START GAME</Typography>
+        <Typography variant="h1">START GAME</Typography>
       </button>
-      <Typography>CONTROLS</Typography>
+      <Typography variant="h1">CONTROLS</Typography>
       <Stack direction="row" alignItems="center" spacing={1} height="36px">
-        <Typography>MOVE </Typography>
+        <Typography variant="h1">MOVE </Typography>
         <button className="control-btn">
-          <Typography>←</Typography>
+          <Typography variant="h1">←</Typography>
         </button>
         <button className="control-btn">
-          <Typography>→</Typography>
+          <Typography variant="h1">→</Typography>
         </button>
         <button className="control-btn">
-          <Typography>↓</Typography>
+          <Typography variant="h1">↓</Typography>
         </button>
       </Stack>
       <Stack direction="row" alignItems="center" spacing={1} height="36px">
-        <Typography>ROTATE </Typography>
+        <Typography variant="h1">ROTATE </Typography>
         <button className="control-btn">
-          <Typography>Z</Typography>
+          <Typography variant="h1">Z</Typography>
         </button>
         <button className="control-btn">
-          <Typography>X</Typography>
+          <Typography variant="h1">X</Typography>
         </button>
       </Stack>
     </Stack>

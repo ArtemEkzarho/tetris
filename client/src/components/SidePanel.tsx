@@ -26,10 +26,10 @@ export const SidePanel = ({ resetBoard }: Props) => {
 
   return (
     <Stack width="15%" height="100%" className="azure-board" alignItems="center" spacing={1}>
-      <Typography>LV</Typography>
-      <Typography>{level}</Typography>
-      <Typography variant="h6">ROWS</Typography>
-      <Typography>{linesCleared}</Typography>
+      <Typography variant="h1">LV</Typography>
+      <Typography variant="h1">{level}</Typography>
+      <Typography variant="h1">ROWS</Typography>
+      <Typography variant="h1">{linesCleared}</Typography>
       <Stack spacing={1} px={1}>
         <Tooltip title="RESET GAME">
           <IconButton

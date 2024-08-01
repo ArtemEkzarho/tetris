@@ -17,14 +17,16 @@ export const TopPanel = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <Typography variant="h6">SCORE</Typography>
-        <Typography>{score}</Typography>
-        <Typography variant="h6">TETRISES</Typography>
-        <Typography>{tetrisesCount} </Typography>
+        <Typography variant="h1">SCORE</Typography>
+        <Typography variant="h1">{score}</Typography>
+        <Typography variant="h1">TETRISES</Typography>
+        <Typography variant="h1">{tetrisesCount} </Typography>
       </Stack>
       <Stack className="azure-board" height="100%" flex={1} alignItems="center">
-        <Typography>NEXT</Typography>
-        <Stack alignItems="center" justifyContent="center" width="53%" flex={1}>
+        <Stack height="25%">
+          <Typography variant="h1">NEXT</Typography>
+        </Stack>
+        <Stack alignItems="center" justifyContent="center" height="75%" width="48%" flex={1}>
           {nextTetromino &&
             nextTetromino.tetromino[nextTetromino.rotation].map((row, y) => (
               <Stack flex={1} direction="row" key={y} justifyContent="space-between" width="93%">
